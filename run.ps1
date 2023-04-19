@@ -6,6 +6,7 @@ param (
     [switch]$showCommand = $false,
     [switch]$help = $false,
     [switch]$removeImage = $false,
+    [switch]$showCommandOnly = $false,
     [string]$runFlags = '-dit --rm',
     [string]$container = 'apachefiddle',
     [string]$image = 'httpd:2.4'
@@ -21,7 +22,7 @@ if($help) {
             -showCommand: print docker command used
             -removeImage: deletes the image. will force to get a new one from docker. lazy way to update it
         [text]
-            -runFlags   : docker flags. --name=... and -p=... are already included => edit through file
+            -runFlags   : docker flags. --name=... and -p=... are already included => edit the ./run.ps1 to change
             -container  : the container name
             -image      : the image name
         
@@ -59,14 +60,16 @@ $linkVolumes=
 $command = "docker run $runFlags --name $container -p 8080:80 ";
 $linkVolumes | %{ $command += "-v " + $volumePrefix['from'] + $_[0] + ':' + $volumePrefix['dest'] + $_[1] + ' '; }
 $command += 'httpd:2.4;';
-if($showCommand){
+if($showCommand -or $showCommandOnly){
     echo "
         runFlags:   $runFlags
         container:  $container
         image:      $image
         command:
             $command";
+    if($showCommandOnly) { return; }
 }
+
 
 $old = docker ps --filter "name=$container" -aq
 if($old -ne $null){
