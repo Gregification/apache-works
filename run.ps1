@@ -1,4 +1,5 @@
-#see https://alvinalexander.com/unix/edu/UnixSysAdmin/node169.shtml
+#! /usr/bin/pwsh
+
 param (
     [switch]$visit = $false,
     [switch]$visitOnly = $false,
@@ -40,14 +41,14 @@ if($visitOnly)  {   Start-Process "http://localhost:8080";  return; }
 if($removeImage){   docker image remove ($image);   }
 if($stop)       {   docker stop ($container);   return; }
 
+#file structure help see -> https://alvinalexander.com/unix/edu/UnixSysAdmin/node169.shtml
 $volumePrefix=@{
     'dest'='/usr/local/apache2'
     'from'=$PWD.Path
 };
-
 $linkVolumes= 
     ("/htdocs/","/htdocs/"),
-    #("/conf/", "/conf/"), #emptying hte config may screw up things
+    #("/conf/", "/conf/"),
     ("/icons/","/icons/"),
     ("/images/","/images/"),
     ("/logs/","/logs/")
