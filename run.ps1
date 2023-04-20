@@ -33,8 +33,7 @@ if($help) {
         
         [note]
             -docker daemon is not controlled by this script. it will not turn it on or off but will require it to be on for this script ot work
-            -from george b. 4/18/2023
-            ";
+            -from george b. 4/18/2023 `n";
     return;
 }
 if($visitOnly)  {   Start-Process "http://localhost:8080";  return; }
@@ -67,7 +66,7 @@ if($showCommand -or $showCommandOnly){
         container:  $container
         image:      $image
         command:
-            $command";
+            $command `n";
     if($showCommandOnly) { return; }
 }
 

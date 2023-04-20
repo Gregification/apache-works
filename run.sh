@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 param=(
@@ -11,24 +10,25 @@ param=(
 	[imgName]="httpd:2.4"		#-i	[param]
 )
 
-while getopts ":a:h:v:s:r:h:f;c:i" opt; do
+while getopts ":h:v:s:r:h:f:c:i:" opt; do
     case $opt in
-	h)
-echo "see /run.ps1 for more details
-[flags]
-	[switches]
-		-h	: show help text
-		-s	: stop existing container
-		-r	: restart and run container
-		-v	: show command used
-	[paramters]
-		-f	: flags to include in command
-		-c	: name of the container
-		-i	: name of the image"; >&2
-		;;
-        a)
-		echo "-a was triggered. parameter: $OPTARG" >&2
-            	;;
+		h)
+			echo "see /run.ps1 for more details
+			[flags]
+				[switches]
+					-h	: show help text
+					-s	: stop existing container
+					-r	: restart and run container
+					-v	: show command used
+				[paramters]
+					-f	: flags to include in command
+					-c	: name of the container
+					-i	: name of the image"; >&2
+			;;
+        v)
+			echo "-v was triggered" >&2;
+			#param.showCmd = 1
+			;;
         \?)
             	echo "Invalid option: -$OPTARG" >&2
             	exit 1
