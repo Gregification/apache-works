@@ -1,5 +1,5 @@
 //import { execSync } from 'child_process';
-const execSync = require('child_process').execSync;
+//const execSync = require('child_process').execSync;
 
 function appendTxt(elementId,thingtoAppend){
     try{
@@ -22,5 +22,14 @@ function sendClii(clii){
         return execSync(clii, {encoding: 'utf-8'});
     }catch(err){
         console.log('script1>sendClii: failed something');
+    }
+}
+
+function loadHTML(srcPath){
+    try{
+        //document.replace(srcPath)
+        location.replace(srcPath);
+    }catch(err){
+        console.log('script1>loadHTML: invalid path? (idk for sure)')
     }
 }

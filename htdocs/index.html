@@ -1,16 +1,17 @@
 <!DOCTYPE html>
+
+<script src="script1.js"></script>
+
 <html>
     <body id="body" bgcolor="orange">
-        <button onclick="nextPage()">next</button>
+        page 1 <br>
+        <button onclick="loadHTML('./page2.html')">2</button>
+        <button onclick="loadHTML('./page3.html')">3</button>
         <script>
             function randColor(){
                 return Math.random() * 0xffffff;
             }
-            function nextPage(){
-                location.replace("./page2.html");
-            }
         </script>
-        page 1
         <br>
 
         <td colspan="4">
@@ -25,12 +26,5 @@
         <button onclick="appendTxt('textDump', document.getElementById('dumpinput').value)">enter</button>
         <button onclick="clearTxt('textDump')">clear</button>
         <p id="textDump"></p>
-        <script src="script1.js">
-            while(true){
-                setTimeout(function task(){
-                    document.getElementById('body').
-                })
-            }
-        </script>
     </body>
 </html>

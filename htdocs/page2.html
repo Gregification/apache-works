@@ -1,19 +1,18 @@
 <!DOCTYPE html>
+
+<script src="script1.js"></script>
+
 <html>
+
     <body>
-        <button onclick="nextPage()">next</button>
-        <script>
-            function nextPage(){
-                location.replace("./index.html");
-            }
-        </script>
         page 2
-        <br>
-        console<input type="text" name="clii" id="clii">
-        <br>
+        <br> 
+        <button onclick="loadHTML('./index.html')">1</button>
+        <br> 
+        console <input type="text" name="clii" id="clii">
+        <br> 
         <button onclick="appendTxt('output', '<br>does not work: ' + sendClii(document.getElementById('clii').value))">enter</button>
         <button onclick="clearTxt('output')">clear</button>
         <p id="output"></p>
-        <script src="script1.js"></script>
     </body>
 </html>
