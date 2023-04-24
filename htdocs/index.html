@@ -4,15 +4,31 @@
 
 <html>
     <head>
-        <title>orange-ch u glad its orange</title>
+        <title>orange-ch</title>
     </head>
     <body id="body" bgcolor="orange">
-        page 1 <br>
+        page 1
+        <p id="locatationDisplay">  </p>
+        <br>
         <button onclick="loadHTML('./page2.html')">2</button>
         <button onclick="loadHTML('./page3.html')">3</button>
         <script>
+            window.onload = function(){
+                document.getElementById('locatationDisplay').innerText = getLocation();
+            }
+
             function randColor(){
                 return Math.random() * 0xffffff;
+            }
+            function getLocation(){
+                let result = "(lat.,long.):";
+                if(navigator.getLocation){
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        result += "(" + pos.coords.latitude + ", " + pos.coords.longitude + ")"; 
+                    });
+                } else {result += "(cannot be found)";}
+
+                return result;
             }
         </script>
         <br>
