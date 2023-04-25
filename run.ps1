@@ -73,9 +73,9 @@ if($showCommand -or $showCommandOnly){
 
 $old = docker ps --filter "name=$container" -aq
 if($old -ne $null){
-    if((Read-Host -Prompt "container of same name alraedy exists. removeand restart? (y/n)") -eq 'y'){
+    if((Read-Host -Prompt "container of same name alraedy exists. remove and restart? (y/n)") -eq 'y'){
         write-host "stopping existing docker container..." -ForegroundColor Yellow -NoNewLine;
-        docker stop $old;
+        docker rm $old;
         Invoke-Expression $command;
     }else{ return; }
 }else{Invoke-Expression $command;}
