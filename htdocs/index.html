@@ -14,7 +14,9 @@
         <button onclick="loadHTML('./page3.html')">3</button>
         <script>
             window.onload = function(){
-                document.getElementById('locatationDisplay').innerText = getLocation();
+                document.getElementById('locatationDisplay').innerHTML = 
+                    getLocation() + "\t@" + getIP();
+                //document.getElementById('body').setAttribute('bgc')
             }
 
             function randColor(){
@@ -29,6 +31,9 @@
                 } else {result += "(cannot be found)";}
 
                 return result;
+            }
+            function getIP(){
+                return getJSONP('https://api.ipify.org/?format=json', function(v){ return v;})
             }
         </script>
         <br>
