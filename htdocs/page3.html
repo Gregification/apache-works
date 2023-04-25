@@ -20,14 +20,14 @@
         <div style="border-style:inset; border-color: black;">
             <div class="overflow-auto" style="min-width: 100%; min-height: 300px; max-height: 500px; background-color: turquoise; border-style: dashed; border-color: black;">
             </div>
-            <button onclick="sentBack(document.getElementById('word box').value())">send</button>
+            <button onclick="sentBack(document.getElementById('chatInput').value())">send</button>
             <script>
                 function sendBack(ei){
                     //
                 }   
             </script>
             <br>
-            <input type="text" id='word box' style="min-width: inherit; max-width: inherit;">
+            <textarea id='chatInput' style="word-wrap: normal; min-width: 98%; min-height: 1.2lh; max-height:5lh; text-align: left; margin: auto; margin-left: 1%; margin-top: 5px; resize:vertical;">text</textarea>
         </div>
         <p>paragraph</p>
     </body>
