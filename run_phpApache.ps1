@@ -10,6 +10,7 @@ param (
     [switch]$removeImage = $false,
     [switch]$showCommandOnly = $false,
     [switch]$useIncovationPath = $false,
+    [switch]$interactive = $false,
     [string]$runFlags = '-dit --rm',
     [string]$container = 'phpapachefiddle',
     [string]$image = 'php:7.2-apache'
@@ -59,6 +60,7 @@ $linkVolumes=
     #("/sbin/","/sbin/"),
     #("/cig-bin/","/cig-bin/")
 ;
+$interactiveExpression = "start powershell {echo 'sh on $container';docker exec -it $container /bin/sh}";
 <#
 $linkMounts=@(
     #("/other_configs/httpd.conf","/etc/apache2/httpd.conf")
@@ -90,13 +92,17 @@ if($old -ne $null){
         write-host "stopping existing docker container..." -ForegroundColor Yellow -NoNewLine;
         docker rm $old;
         Invoke-Expression $command;
-    }else{ return; }
+    }else{ 
+        Invoke-Expression $interactiveExpression;
+        return; 
+    }
 }else{Invoke-Expression $command;}
 
 $old = docker ps --filter "name=$container" -q
 if($old -ne $null){ 
     write-host "CONTAINER $container UP" -BackgroundColor Green 
     if($visit)      {   Start-Process "http://localhost:8080";  }
+    if($interactive){   Invoke-Expression $interactiveExpression; }
 }else{ 
     write-host "FAILED TO START CONTAINER." -BackgroundColor Red;
 }

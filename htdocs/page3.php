@@ -31,7 +31,9 @@
             </script>
             <textarea id='chatInput' style="word-wrap: normal; min-width: 98%; min-height: 1.2lh; max-height:5lh; text-align: left; margin: auto; margin-left: 1%; resize:vertical;">text</textarea>
         </div>
+        <!--
         <?php phpinfo(); ?>
         <p>rand JS number <script>document.write(Math.round(Math.random() * 10))</script></p>
+        -->
     </body>
 </html>
