@@ -9,6 +9,7 @@ param (
     [switch]$help = $false,
     [switch]$removeImage = $false,
     [switch]$showCommandOnly = $false,
+    [switch]$useIncovationPath = $false,
     [string]$runFlags = '-dit --rm',
     [string]$container = 'phpapachefiddle',
     [string]$image = 'php:7.2-apache'
@@ -23,6 +24,7 @@ if($help) {
             -visitOnly  : just open the browser page, nothing more
             -showCommand: print docker command used
             -removeImage: deletes the image. will force to get a new one from docker. lazy way to update it
+            -useInconvationPath : use the directory the command was called from
         [text]
             -runFlags   : docker flags. --name=... and -p=... are already included => edit this file to change
             -container  : the container name
@@ -34,7 +36,7 @@ if($help) {
         
         [note]
             -docker daemon is not controlled by this script. it will not turn it on or off but will require it to be on for this script ot work
-            -this is not intended to replace a Dockerfile, this is to set up shared vlumes between the host and container so you can see changes faster.
+            -this is not intended to replace a Dockerfile, this is to set up shared volumes between the host and container so you can see changes faster.
             -configs not live even if the docker mount/volume is. try restarting services";
     return;
 }
@@ -45,7 +47,7 @@ if($stop)       {   docker stop ($container);   return; }
 #file structure help see -> https://alvinalexander.com/unix/edu/UnixSysAdmin/node169.shtml
 $volumePrefix=@{
     'dest'='/var'
-    'from'=$PWD.Path
+    'from'=(&{if($useIncovationPath) {$MyInvocation.MyCommand.Path} else {$pwd.Path}})
 };
 $linkVolumes= 
     ("/htdocs/","/www/html/"),

@@ -7,7 +7,7 @@ COPY ./images/ ./images/
 COPY ./icons/ ./icons/
 COPY ./other_configs/apache2.conf /etc/apache2/apache2.conf
 
-#most of this is redundent but somethign always goes wrong when this is removed
+#most of this is redundent but catches older versions
 RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork
 RUN a2enmod php7
