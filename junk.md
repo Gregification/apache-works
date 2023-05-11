@@ -23,7 +23,13 @@ $/
 │   └── www
 │   *   └── html
 ```
-## commands
+### commands
 | context   | command       | description       |
 | :---      | :---          | :---              |
 | bash/php      | <code>php -ini </code> | php settings info. contains file locaitons. get php.ini locaiton with <code>php -ini \| grep php.ini </code> |
+
+## Page 3
+table ```Message```
+| id SERIAL | timeDelivered | sentBy | message | 
+| -- | -- | -- | -- |
+| serial | TIMESTAMP | VARCHAR(255) | VARCHAR(940) |

@@ -1,13 +1,17 @@
 #php version not secured. cant find a list of image versions so it stays as such
 FROM php:7.2-apache
 
-WORKDIR /var/www/
-COPY ./htdocs/ ./html/
-COPY ./images/ ./images/
-COPY ./icons/ ./icons/
+###### configs
 COPY ./other_configs/apache2.conf /etc/apache2/apache2.conf
+COPY ./other_configs/php/ /usr/local/etx/php/
 
-#most of this is redundent but catches older versions
+###### src
+#WORKDIR /var/www/
+#COPY ./htdocs/ ./html/
+#COPY ./images/ ./images/
+#COPY ./icons/ ./icons/
+
+## ensure php works
 RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork
 RUN a2enmod php7

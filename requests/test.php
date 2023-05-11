@@ -1,13 +1,16 @@
 <?php
-echo "pdf self : " . $_SERVER['PHP_SELF'];
-echo "<br>";
-echo "server name : " . $_SERVER['SERVER_NAME'];
-echo "<br>";
-echo "http host : " . $_SERVER['HTTP_HOST'];
-echo "<br>";
-echo "http referer : " . $_SERVER['HTTP_REFERER'];
-echo "<br>";
-echo "http user agent : " . $_SERVER['HTTP_USER_AGENT'];
-echo "<br>";
-echo "script name : " . $_SERVER['SCRIPT_NAME'];
+    foreach(array('PHP_SELF', 'SERVER_NAME','HTTP_HOST','HTTP_REFERER','HTTP_USER_AGENT','SCRIPT_NAME'
+        ) as $v){
+        echo $v . ': ' . $_SERVER[$v] . "<br>";
+    }
+
+    try{
+        $con = pg_connect("host=localhost port=5432 dbname=fiddle user=postgres password=pasword");
+        if($con){
+            echo "connected";
+        }
+    }
+    catch(Exception $e){
+        echo $e->getMessage();
+    }
 ?>

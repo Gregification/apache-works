@@ -11,9 +11,10 @@ param (
     [switch]$showCommandOnly = $false,
     [switch]$useIncovationPath = $false,
     [switch]$interactive = $false,
+    [switch]$rebuild = $false,
     [string]$runFlags = '-dit --rm',
-    [string]$container = 'phpapachefiddle',
-    [string]$image = 'php:7.2-apache'
+    [string]$container = 'apachefiddle',
+    [string]$image = 'aphpchefiddle'
 )
 
 if($help) { 
@@ -26,6 +27,7 @@ if($help) {
             -showCommand: print docker command used
             -removeImage: deletes the image. will force to get a new one from docker. lazy way to update it
             -useInconvationPath : use the directory the command was called from
+            -rebuild    : rebuilds image, stopping related running containers and removing the orgional image of the same name. does not remove containers
         [text]
             -runFlags   : docker flags. --name=... and -p=... are already included => edit this file to change
             -container  : the container name
@@ -42,23 +44,30 @@ if($help) {
     return;
 }
 if($visitOnly)  {   Start-Process "http://localhost:8080";  return; }
-if($removeImage){   docker image remove ($image);   }
+if($removeImage -or $rebuild){   
+    $old = docker ps --filter "name=$container" -q
+    if($old -ne $null){
+        docker container stop $old;
+    }
+    docker image remove ($image); 
+    docker build $PSScriptRoot/ -t $image; 
+}
 if($stop)       {   docker stop ($container);   return; }
 
 #file structure help see -> https://alvinalexander.com/unix/edu/UnixSysAdmin/node169.shtml
 $volumePrefix=@{
     'dest'='/var'
-    'from'=(&{if($useIncovationPath) {$MyInvocation.MyCommand.Path} else {$pwd.Path}})
+    'from'=(&{if($useIncovationPath) {$PSScriptRoot} else {$pwd.Path}})
 };
 $linkVolumes= 
-    ("/htdocs/","/www/html/"),
-    #("/conf/", "/conf/"),
-    ("/icons/","/www/html/icons/"),
-    ("/images/","/www/html/images/"),
-    ("/requests/","/www/html/requests/")
-    #("/logs/","/logs/"),
-    #("/sbin/","/sbin/"),
-    #("/cig-bin/","/cig-bin/")
+    ("/htdocs/","/var/www/html/"),
+    #("/conf/", "/var/conf/"),
+    ("/icons/","/var/www/html/icons/"),
+    ("/images/","/var/www/html/images/"),
+    ( "/requests/","/var/www/html/requests/")
+    #("/logs/","/var/logs/"),
+    #("/sbin/","/var/sbin/"),
+    #("/cig-bin/","/var/cig-bin/")
 ;
 $interactiveExpression = "start powershell {echo 'sh on $container';docker exec -it $container /bin/sh}";
 <#
@@ -72,7 +81,7 @@ $linkMounts | %{echo "$_[0] `n`t $_[1]"}
 #docker run -dit --rm --name htmlfiddle -p 8080:80 -v D:\vsc\htmlfiddle/public-html/:/usr/local/apache2/htdocs/ httpd:2.4
 
 $command = "docker run $runFlags --name $container -p 8080:80 ";
-$linkVolumes | %{ $command += "-v `"" + $volumePrefix['from'] + $_[0] + ":" + $volumePrefix['dest'] + $_[1] + "`" "; }
+$linkVolumes | %{ $command += "-v `"" + $volumePrefix['from'] + $_[0] + ":" + $_[1] + "`" "; }
 #$linkMounts | ?{$_[0].length -ne 0} | %{ $command += "--mount type=bind,source=`"" + $volumePrefix['from'] + $_[0] + "`",target=`"" + $_[1] + "`" "}
 $command += $image;
 if($showCommand -or $showCommandOnly){
@@ -84,7 +93,6 @@ if($showCommand -or $showCommandOnly){
             $command `n";
     if($showCommandOnly) { return; }
 }
-
 
 $old = docker ps --filter "name=$container" -aq
 if($old -ne $null){
