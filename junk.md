@@ -27,6 +27,7 @@ $/
 | context   | command       | description       |
 | :---      | :---          | :---              |
 | bash/php      | <code>php -ini </code> | php settings info. contains file locaitons. get php.ini locaiton with <code>php -ini \| grep php.ini </code> |
+| bahs/php | ```php -m``` | list modules |
 
 ## Page 3
 table ```Message```
