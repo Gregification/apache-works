@@ -7,7 +7,7 @@
     }
 
     try{
-        $con = pg_connect("host=localhost port=5432 dbname=fiddle user=postgres password=pasword");
+        $con = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=pasword");
         if($con){
             echo "connected";
         }

@@ -1,5 +1,6 @@
 #! /usr/bin/pwsh
 #image -> php:7.2-apache
+#note: this basically ignore source material from the dockerfile, update the linked volumes for folder changes
 
 param (
     [switch]$visit = $false,
@@ -7,7 +8,7 @@ param (
     [switch]$stop = $false,
     [switch]$showCommand = $false,
     [switch]$help = $false,
-    [switch]$removeImage = $false,
+    [switch]$removeSrcImage = $false,
     [switch]$showCommandOnly = $false,
     [switch]$useIncovationPath = $false,
     [switch]$interactive = $false,
@@ -16,6 +17,7 @@ param (
     [string]$container = 'apachefiddle',
     [string]$image = 'aphpchefiddle'
 )
+$srcImage = "php:7.2-apache";
 
 if($help) { 
     write-host 
@@ -36,6 +38,7 @@ if($help) {
         runFlags:   $runFlags
         container:  $container
         image:      $image
+        srcImage:   $srcImage
         
         [note]
             -docker daemon is not controlled by this script. it will not turn it on or off but will require it to be on for this script ot work
@@ -44,13 +47,14 @@ if($help) {
     return;
 }
 if($visitOnly)  {   Start-Process "http://localhost:8080";  return; }
-if($removeImage -or $rebuild){   
+if($removeSrcImage){    docker image rm $srcImage }
+if($rebuild){   
     $old = docker ps --filter "name=$container" -q
     if($old -ne $null){
         docker container stop $old;
     }
-    docker image remove ($image); 
-    docker build $PSScriptRoot/ -t $image; 
+    docker image rm $image; 
+    docker build $PSScriptRoot/ -t $image;
 }
 if($stop)       {   docker stop ($container);   return; }
 
@@ -59,12 +63,14 @@ $volumePrefix=@{
     'dest'='/var'
     'from'=(&{if($useIncovationPath) {$PSScriptRoot} else {$pwd.Path}})
 };
+########## MANUALY UPDATE DURING DEV . will error if not
 $linkVolumes= 
     ("/htdocs/","/var/www/html/"),
     #("/conf/", "/var/conf/"),
     ("/icons/","/var/www/html/icons/"),
     ("/images/","/var/www/html/images/"),
-    ( "/requests/","/var/www/html/requests/")
+    ( "/request/","/var/www/html/request/"),
+    ( "/private_request/","/var/www/private_request/")
     #("/logs/","/var/logs/"),
     #("/sbin/","/var/sbin/"),
     #("/cig-bin/","/var/cig-bin/")
