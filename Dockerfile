@@ -25,7 +25,7 @@ COPY ./other_configs/php/php.ini /usr/local/etc/php/php.ini
 WORKDIR /var/
 COPY ./private_request/ ./private_request/
 
-WORKDIR /var/www/html/
+WORKDIR /var/www/
 COPY ./htdocs/ ./html/
 COPY ./request/ ./request/
 ADD ./images/ ./images/

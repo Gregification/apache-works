@@ -26,10 +26,5 @@ function sendClii(clii){
 }
 
 function loadHTML(srcPath){
-    try{
-        //document.replace(srcPath)
-        location.replace(srcPath);
-    }catch(err){
-        console.log('script1>loadHTML: invalid path? (idk for sure)')
-    }
+    location.replace(srcPath);
 }

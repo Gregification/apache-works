@@ -67,10 +67,10 @@ $volumePrefix=@{
 $linkVolumes= 
     ("/htdocs/","/var/www/html/"),
     #("/conf/", "/var/conf/"),
-    ("/icons/","/var/www/html/icons/"),
-    ("/images/","/var/www/html/images/"),
-    ( "/request/","/var/www/html/request/"),
-    ( "/private_request/","/var/www/private_request/")
+    ("/icons/","/var/www/icons/"),
+    ("/images/","/var/www/images/"),
+    ( "/request/","/var/www/request/"),
+    ( "/private_request/","/var/private_request/")
     #("/logs/","/var/logs/"),
     #("/sbin/","/var/sbin/"),
     #("/cig-bin/","/var/cig-bin/")

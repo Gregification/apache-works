@@ -18,11 +18,21 @@ $/
 │   *   *   └── ext
 │   *   *   *   └── php_pgsql.dll
 ├── var
-│   ├── cache
-│   ├── log
+│   ├── local
+│   ├── private_request     | ./private_requests
 │   └── www
-│   *   └── html
+│   *   ├── request     | ./request
+│   *   ├── images      | ./images
+│   *   ├── icons       | ./icons
+│   *   └── html        | ./htdocs
 ```
+##### *key*
+<font size=1>
+
+- <code>[interanl folder] | [project src]</code>
+
+</font>
+
 ### commands
 | context   | command       | description       |
 | :---      | :---          | :---              |
@@ -34,3 +44,7 @@ table ```Message```
 | id SERIAL | timeDelivered | sentBy | message | 
 | -- | -- | -- | -- |
 | serial | TIMESTAMP | VARCHAR(255) | VARCHAR(940) |
+
+---
+## issues
+- request/navbarPages.json chunky as associatative arrays. not necesassry either
