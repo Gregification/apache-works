@@ -18,10 +18,9 @@
                     <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
                         <li><button class="dropdown-item btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-user">user</button></li>
                         <div class="dropdown-divider"></div>
-                        <li><a class="dropdown-item" href="#">chats</a></li>
-                        <li><a class="dropdown-item" href="#">stats</a></li>
-                        <div class="dropdown-divider"></div>
-                        <li><a class="dropdown-item" href="#">about</a></li>
+                        <li><a class="dropdown-item" href="/chat/chats.html">chats</a></li>
+                        <li><a class="dropdown-item" href="/chat/usersearch.html">users</a></li>
+                        <li><a class="dropdown-item" href="/chat/stats.html">stats</a></li>
                     </ul>
                 </div>
                 <div class="navbar-header">
@@ -43,33 +42,96 @@
                     </div>
                 </form>
             </div>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="username" aria-label="username" aria-describedby="basic-addon2">
+        </div>         
+
+        <!-- modal user -->
+        <div class="modal fade" id="modal-user" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" >User</h1>&ensp;
+                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2" id="modal-user-label">Username here</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button">search</button>
+                            </div>
+                            <input type="text" class="form-control" id="usernamerequest-input" placeholder="username" aria-label="username" aria-describedby="basic-addon1">
+                        </div>
+                        <section class="chats">
+                            <div class="content">
+                                <div class="container">
+                                    <div class="card" style="">
+                                        <div class="card-body">
+                                            <div class="card-title">username</div>
+                                            <div class="card-subtitle">last online</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button">try</button>
+                            </div>
+                            <input type="text" class="form-control" id="usernamerequest-input" placeholder="attempt username change" aria-label="username" aria-describedby="basic-addon1">
+                        </div>
+                        <!-- <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button">join user</button>
+                            </div>
+                            <input type="text" class="form-control" id="usernamerequest-input" placeholder="target user" aria-label="username" aria-describedby="basic-addon1">
+                        </div> -->
+                        <!-- <form class="input-group mb-3" id="chatjoin-form">
+                            <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button submit">Join</button>
+                            </div>
+                            <input required type="text" class="form-control" id="usernamerequest-input" placeholder="chat id" aria-label="username" aria-describedby="basic-addon1">
+                        </form>
+                        <script>
+                            document.getElementById("chatjoin-form").addEventListener('submit', (e) => {
+                                console.log('form submitted');
+                                // if(!form.checkValidity) 
+                                //e.preventDefault();
+                                //form.classList.add('was-validated');
+                            });
+                        </script> -->
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="modal fade" id="modal-user" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
+        <!-- modal chat
+        <div class="modal fade" id="modal-chat" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modal-user-label">USER</h1>
+                    <h1 class="modal-title fs-5" id="modal-user-label">Chats</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-secondary" type="button">try</button>
+                    <section class="chats">
+                        <div class="content">
+                            <div class="container">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="card-title">title</div>
+                                        <div class="card-subtitle">subtitle</div>
+                                        <div class="card-text">laekcnlaekcna</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <input type="text" class="form-control" id="usernamerequest-input" placeholder="try username" aria-label="username" aria-describedby="basic-addon1">
-                      </div>
+                    </section>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
-                    <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-                </div>
+                <div class="modal-footer"></div>
             </div>
             </div>
-        </div>
+        </div>-->
     </body>
 
     <!--

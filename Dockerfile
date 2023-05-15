@@ -18,18 +18,21 @@ RUN docker-php-ext-install \
 # apache config #######################
 COPY ./other_configs/apache2.conf /etc/apache2/apache2.conf
 
+#do not change doc root to /var/www/
+#COPY ./other_configs/000-default.conf /etc/apache2/sites-available/000-default.conf
+
 # php config    #######################
 COPY ./other_configs/php/php.ini /usr/local/etc/php/php.ini
 
 # src           #######################
 WORKDIR /var/
-COPY ./private_request/ ./private_request/
+COPY ./private_request ./private_request
 
 WORKDIR /var/www/
-COPY ./htdocs/ ./html/
-COPY ./request/ ./request/
-ADD ./images/ ./images/
-ADD ./icons/ ./icons/
+COPY ./htdocs ./html
+#COPY ./request ./request
+#ADD ./images ./images
+#ADD ./icons ./icons
 
 RUN service apache2 restart
 

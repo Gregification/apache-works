@@ -65,12 +65,12 @@ $volumePrefix=@{
 };
 ########## MANUALY UPDATE DURING DEV . will error if not
 $linkVolumes= 
-    ("/htdocs/","/var/www/html/"),
+    ("/htdocs","/var/www/html"),
     #("/conf/", "/var/conf/"),
-    ("/icons/","/var/www/icons/"),
-    ("/images/","/var/www/images/"),
-    ( "/request/","/var/www/request/"),
-    ( "/private_request/","/var/private_request/")
+    #("/icons","/var/www/htmlicons"),
+    #("/images","/var/www/images"),
+    #( "/request","/var/www/request"),
+    ( "/private_request","/var/private_request")
     #("/logs/","/var/logs/"),
     #("/sbin/","/var/sbin/"),
     #("/cig-bin/","/var/cig-bin/")
@@ -104,6 +104,7 @@ $old = docker ps --filter "name=$container" -aq
 if($old -ne $null){
     if((Read-Host -Prompt "container of same name alraedy exists. remove and restart? (y/n)") -eq 'y'){
         write-host "stopping existing docker container..." -ForegroundColor Yellow -NoNewLine;
+        docker stop $old;
         docker rm $old;
         Invoke-Expression $command;
     }else{ 

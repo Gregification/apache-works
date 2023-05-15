@@ -20,7 +20,7 @@ $/
 ├── var
 │   ├── local
 │   ├── private_request     | ./private_requests
-│   └── www
+│   └── www                                         <------- DOCUMENT ROOT
 │   *   ├── request     | ./request
 │   *   ├── images      | ./images
 │   *   ├── icons       | ./icons
