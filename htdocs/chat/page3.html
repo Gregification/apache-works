@@ -16,8 +16,6 @@
                 <div class="dropdown">
                     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chat</a>
                     <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
-                        <li><button class="dropdown-item btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-user">user</button></li>
-                        <div class="dropdown-divider"></div>
                         <li><a class="dropdown-item" href="/chat/chats.html">chats</a></li>
                         <li><a class="dropdown-item" href="/chat/usersearch.html">users</a></li>
                         <li><a class="dropdown-item" href="/chat/stats.html">stats</a></li>
@@ -29,128 +27,38 @@
                 </div>
             </div>
         </nav>
-        
-        <div class="overflow-auto" style="min-width: 100%; min-height: 300px; max-height: 500px; border-style: dashed; border-color: black;">text</div>
-        <div class="contianer">
-            <div class="border border-4 p-1">
-                <form>
-                    <div style="margin-top: 2px; margin-bottom: 2px;">
-                        <button class="btn btn-primary">send</button>
-                    </div>
-                    <div class="input-group">
-                        <textarea class="form-control" aria-label="With textarea" placeholder="message as ..."></textarea>
-                    </div>
-                </form>
-            </div>
-        </div>         
 
-        <!-- modal user -->
-        <div class="modal fade" id="modal-user" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" >User</h1>&ensp;
-                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2" id="modal-user-label">Username here</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary" type="button">search</button>
-                            </div>
-                            <input type="text" class="form-control" id="usernamerequest-input" placeholder="username" aria-label="username" aria-describedby="basic-addon1">
+        <!-- note: https://htmldom.dev/create-resizable-split-views/ -->
+        <header>
+            <h2 style="text-align: center;">chat name</h2>
+        </header>
+
+        <div style="width: 100%; max-height: 40%;">
+            <div class="contianer">
+                <div class="border border-4 p-1">
+                    <form>
+                        <div style="margin-top: 2px; margin-bottom: 2;">
+                            <button class="btn btn-primary">send</button>
                         </div>
-                        <section class="chats">
-                            <div class="content">
-                                <div class="container">
-                                    <div class="card" style="">
-                                        <div class="card-body">
-                                            <div class="card-title">username</div>
-                                            <div class="card-subtitle">last online</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary" type="button">try</button>
-                            </div>
-                            <input type="text" class="form-control" id="usernamerequest-input" placeholder="attempt username change" aria-label="username" aria-describedby="basic-addon1">
+                        <div class="input-group">
+                            <textarea class="form-control" placeholder="message as ..." style="min-height: 1.5rem; max-height: 200px;"oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                         </div>
-                        <!-- <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary" type="button">join user</button>
-                            </div>
-                            <input type="text" class="form-control" id="usernamerequest-input" placeholder="target user" aria-label="username" aria-describedby="basic-addon1">
-                        </div> -->
-                        <!-- <form class="input-group mb-3" id="chatjoin-form">
-                            <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary" type="button submit">Join</button>
-                            </div>
-                            <input required type="text" class="form-control" id="usernamerequest-input" placeholder="chat id" aria-label="username" aria-describedby="basic-addon1">
-                        </form>
-                        <script>
-                            document.getElementById("chatjoin-form").addEventListener('submit', (e) => {
-                                console.log('form submitted');
-                                // if(!form.checkValidity) 
-                                //e.preventDefault();
-                                //form.classList.add('was-validated');
-                            });
-                        </script> -->
-                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>                
+        
+        <div style="overflow-y: auto; height: 700px;">
+            <div class="card text-left" style="flex-direction: row;">
+                <div style="max-width: 20%; min-width: 5%; max-height: 90%;">
+                    <img class="card-img-left rounded-0" src="/icon/default/icon.png" style="width: 50px; height: 50px;" alt="Card image cap">
+                </div>
+                <div class="card-body">
+                    username
+                    <small class="card-text text-muted">time of posting</small>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
             </div>
         </div>
-
-        <!-- modal chat
-        <div class="modal fade" id="modal-chat" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modal-user-label">Chats</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <section class="chats">
-                        <div class="content">
-                            <div class="container">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card-title">title</div>
-                                        <div class="card-subtitle">subtitle</div>
-                                        <div class="card-text">laekcnlaekcna</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-                <div class="modal-footer"></div>
-            </div>
-            </div>
-        </div>-->
     </body>
-
-    <!--
-        <form id="usernamerequest-form">
-                        <div class="form-floating">
-                            <input class="form-control" type='text' id="usernamerequest-input" placeholder="check username" required>
-                            <label for="usernamerequest-input">username</label>
-                        </div>
-                        <button type="button submit" class="btn btn-secondary" id="usernamerequest-button">Submit</button>
-                    </form>
-                    <script>
-                        const form = document.getElementById("usernamerequest-form");
-                        form.addEventListener('submit', (e) => {
-                            for(var p of form.entries())
-                                console.log(p[0] + ": " + p[1]);
-                            // if(!form.checkValidity) 
-                            //e.preventDefault();
-                            form.classList.add('was-validated');
-                        });
-                    </script>
-    -->
 </html>
