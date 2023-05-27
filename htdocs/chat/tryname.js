@@ -1,22 +1,17 @@
-const form  =   document.getElementById("modal-user-form"),
-    content =   form.querySelector(".modal-content")
-    header  =   content.querySelector(".modal-header"),
-    body    =   content.querySelector(".modal-body"),
-    footer  =   content.querySelector(".modal-footer"),
-    userNameDispaly =   header.querySelector(".modal-user-label"),
-    tryBtn  =   body.querySelector(".btn"),
-    footerStyleDisplay_og  =   footer.style.display;
+const   form_tryUsername   =   document.getElementById("form-modal-tryusername"),
+    // content =   form.querySelector(".modal-content")
+    // header  =   content.querySelector(".modal-header"),
+    // body    =   content.querySelector(".modal-body"),
+    // footer  =   content.querySelector(".modal-footer"),
+    // userNameDispaly =   header.querySelector(".modal-user-label"),
+    tryBtn  =   form_tryUsername.querySelector("button[type='submit']")
+    //footerStyleDisplay_og  =   footer.style.display
+    ;
 
-footer.style.display = "none";
-form.onsubmit = (v)=>{
+//footer.style.display = "none";
+form_tryUsername.onsubmit = (v)=>{
     v.preventDefault();
-}
-
-// console.log(content);
-// console.log(userNameDispaly);
-// console.log(tryBtn);
-
-tryBtn.onclick = () => {
+    
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/request/chat/tryname.php", true);
     xhr.onload = ()=>{
@@ -27,7 +22,12 @@ tryBtn.onclick = () => {
             }
         }
     };
-    xhr.send();
 
-    footer.style.display = footerStyleDisplay_og;
+    let formdata = new FormData(form_tryUsername);//libary obj, takes html form ele.
+    xhr.send(formdata);//send form data to php
+}
+
+tryBtn.onclick = () => {
+
+    //footer.style.display = footerStyleDisplay_og;
 }

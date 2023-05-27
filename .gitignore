@@ -5,3 +5,4 @@ images/
 logs/
 sbin/
 crts/
+private_request/psqlConnecitonInfo.json
