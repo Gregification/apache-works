@@ -15,7 +15,11 @@ param (
     [switch]$rebuild = $false,
     [string]$runFlags = '-dit --rm',
     [string]$container = 'apachefiddle',
-    [string]$image = 'aphpchefiddle'
+    [string]$image = 'aphpchefiddle',
+    [string]$netName = 'fiddlenet',
+    [string]$dbContainer = 'aphpsql',
+    [string]$dbPort = '5432',
+    [string]$dbConnecitonInfo = "./private_request/psqlConnectionInfo.json"
 )
 $srcImage = "php:7.2-apache";
 
@@ -30,6 +34,9 @@ if($help) {
             -removeImage: deletes the image. will force to get a new one from docker. lazy way to update it
             -useInconvationPath : use the directory the command was called from
             -rebuild    : rebuilds image, stopping related running containers and removing the orgional image of the same name. does not remove containers
+            -netName    : docker bridge network name with the db on it
+            -dbContainer: name of existing db container
+            -dbPort     : port to the db
         [text]
             -runFlags   : docker flags. --name=... and -p=... are already included => edit this file to change
             -container  : the container name
@@ -39,14 +46,24 @@ if($help) {
         container:  $container
         image:      $image
         srcImage:   $srcImage
+        netName:    $netName
+        dbContainer:    $dbContainer
+        dbPort:     $dbPort
         
         [note]
             -docker daemon is not controlled by this script. it will not turn it on or off but will require it to be on for this script ot work
             -this is not intended to replace a Dockerfile, this is to set up shared volumes between the host and container so you can see changes faster.
-            -configs not live even if the docker mount/volume is. try restarting services";
+            -configs not live even if the docker mount/volume is. try restarting services
+            -containers wil remain o nnetwork even when disabled, docker will give duplicate end point error(ignore it if so)";
     return;
 }
 if($visitOnly)  {   Start-Process "http://localhost:8080";  return; }
+
+
+#########################################
+# apache
+#########################################
+
 if($removeSrcImage){    docker image rm $srcImage }
 if($rebuild){   
     $old = docker ps --filter "name=$container" -q
@@ -56,7 +73,7 @@ if($rebuild){
     docker image rm $image; 
     docker build $PSScriptRoot/ -t $image;
 }
-if($stop)       {   docker stop ($container);   return; }
+if($stop)       {   docker stop $container $dbContainer;   return; }
 
 #file structure help see -> https://alvinalexander.com/unix/edu/UnixSysAdmin/node169.shtml
 $volumePrefix=@{
@@ -75,7 +92,7 @@ $linkVolumes=
     #("/sbin/","/var/sbin/"),
     #("/cig-bin/","/var/cig-bin/")
 ;
-$interactiveExpression = "start powershell {echo 'sh on $container';docker exec -it $container /bin/sh}";
+$interactiveExpression = "start powershell {echo '$container';docker exec -it $container /bin/bash}; start powershell {echo '$dbContainer'; docker exec -it $dbContainer /bin/bash}";
 <#
 $linkMounts=@(
     #("/other_configs/httpd.conf","/etc/apache2/httpd.conf")
@@ -108,16 +125,54 @@ if($old -ne $null){
         docker rm $old;
         Invoke-Expression $command;
     }else{ 
-        Invoke-Expression $interactiveExpression;
+        if($interactive){   Invoke-Expression $interactiveExpression;   }
         return; 
     }
 }else{Invoke-Expression $command;}
 
 $old = docker ps --filter "name=$container" -q
 if($old -ne $null){ 
-    write-host "CONTAINER $container UP" -BackgroundColor Green 
-    if($visit)      {   Start-Process "http://localhost:8080";  }
+    write-host "APACHE:$container" -BackgroundColor Green 
     if($interactive){   Invoke-Expression $interactiveExpression; }
+    if($visit)      {   sleep -Milliseconds 200;   Start-Process "http://localhost:8080";  }
 }else{ 
-    write-host "FAILED TO START CONTAINER." -BackgroundColor Red;
+    write-host "FAILED TO START APACHE:$container. quitting" -BackgroundColor Red -NoNewline;
+    return;
 }
+
+
+
+#########################################
+# psql
+#########################################
+# connection info updated when connected(see next section)
+$old = docker ps --filter "name=$dbContainer" -q;
+if($old -eq $null){
+    $old = docker ps --filter "name=$dbContainer" -aq;
+    if($old -eq $null){ write-host "FAILED TO FIND DB CONTAINER." -BackgroundColor Red; return; }
+    else {  docker start $dbContainer;  }
+}
+
+
+#########################################
+# docker netowrk
+#########################################
+# bridge , no limitations of any kind ... mmmm
+# containers connected after creation
+# connection info updated
+
+$old = docker network ls --filter "name=$netName" -q;
+if($old -eq $null){
+    if((Read-Host -Prompt "network of name $netName cannot be found. create and continue? (y/n)") -eq 'y'){
+        docker network create $netName --driver bridge;
+    }else { return; }
+}
+
+docker network connect $netName $dbContainer;
+docker network connect $netName $container;
+
+$dbiPv4 = (docker exec $dbContainer hostname -I).trim() -Split ' ',-1;
+@{
+    'iPv4'  =   $dbiPv4[-1]
+    'port'  =   $dbPort
+} | ConvertTo-Json | Set-Content $dbConnecitonInfo;

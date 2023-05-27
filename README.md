@@ -25,7 +25,7 @@ $/
 │   ├── local
 │   ├── private_request     | ./private_requests
 │   └── www
-│   *   └── html        | ./htdocs                      <------- DOCUMENT ROOT
+│   *   └── html        | ./htdocs                      <------- web root
 ```
 ##### *key*
 <font size=1>

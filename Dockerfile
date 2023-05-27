@@ -1,6 +1,6 @@
 #see refrence -> https://stackoverflow.com/questions/45432203/how-to-install-pgsql-driver-on-docker-php7-1-apache
 #php versions are mismatched. cant find a list of image versions so it stays as such
-FROM php:7.2-apache
+FROM php:7.4-apache
 
 # php           #######################
 RUN a2dismod mpm_event

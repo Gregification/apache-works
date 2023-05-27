@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 
-<script src="/script1.js"></script>
-
 <html lang="en" >
     <head>
         <meta charset="utf-8">
@@ -56,25 +54,32 @@
         </div>
 
         <!-- modal user -->
-        <div class="modal fade" id="modal-user" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" >User</h1>&ensp;
-                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2" id="modal-user-label">Username here</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary" type="button">try</button>
+        <form action="#" id="modal-user-form">
+            <div class="modal fade" id="modal-user" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" >User</h1>&ensp;
+                            <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label">Username here</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary" type="button">try</button>
+                                </div>
+                                <input name="newName" type="text" class="form-control" id="usernamerequest-input" placeholder="attempt username change" aria-label="username" aria-describedby="basic-addon1">                                
                             </div>
-                            <input type="text" class="form-control" id="usernamerequest-input" placeholder="attempt username change" aria-label="username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" value="update">
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
 
+        <script src="/script1.js"></script>
+        <script src="./tryname.js"></script>
     </body>
 </html>
