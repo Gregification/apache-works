@@ -8,9 +8,8 @@
         $dbname = "chatdb";
         $user = "postgres";
         $password = "password";
-
-        $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;user=$user;password=$password");
-        echo "Connected to the database successfully";
+        
+        $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;", $user, $password);
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }

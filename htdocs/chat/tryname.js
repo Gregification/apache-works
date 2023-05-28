@@ -11,7 +11,7 @@ const   form_tryUsername   =   document.getElementById("form-modal-tryusername")
 //footer.style.display = "none";
 form_tryUsername.onsubmit = (v)=>{
     v.preventDefault();
-    
+
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "/request/chat/tryname.php", true);
     xhr.onload = ()=>{
@@ -24,6 +24,7 @@ form_tryUsername.onsubmit = (v)=>{
     };
 
     let formdata = new FormData(form_tryUsername);//libary obj, takes html form ele.
+    formdata.append('oldName', );
     xhr.send(formdata);//send form data to php
 }
 
