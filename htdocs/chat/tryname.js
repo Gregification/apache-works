@@ -1,11 +1,9 @@
-const   form_tryUsername   =   document.getElementById("form-modal-tryusername"),
-    // content =   form.querySelector(".modal-content")
-    // header  =   content.querySelector(".modal-header"),
-    // body    =   content.querySelector(".modal-body"),
+const   content =   document.querySelector("#modal-user .modal-content"),
+    header  =   content.querySelector(".modal-header"),
+    body    =   content.querySelector(".modal-body"),
     // footer  =   content.querySelector(".modal-footer"),
-    // userNameDispaly =   header.querySelector(".modal-user-label"),
-    tryBtn  =   form_tryUsername.querySelector("button[type='submit']")
-    //footerStyleDisplay_og  =   footer.style.display
+    userNameDis =   header.querySelector("#modal-user-usernamedisplay"),
+    form_tryUsername   =   body.querySelector("#form-modal-tryusername")
     ;
 
 //footer.style.display = "none";
@@ -17,18 +15,21 @@ form_tryUsername.onsubmit = (v)=>{
     xhr.onload = ()=>{
         if(xhr.readyState === XMLHttpRequest.DONE){
             if(xhr.status === 200){
-                let data = xhr.response;
-                console.log(data);
+                let data = xhr.response;//this case will alwayse be a string
+                if((/success/).test(data)){
+                    let inputName = form_tryUsername.querySelector("input[name='newName']");
+                    userNameDis.innerHTML = inputName.value;
+                    inputName.value = '';
+                }else if((/fail_/).test(data)){
+                    alert(data);
+                }else{
+                    console.log('data: ' + data);
+                }
             }
         }
     };
 
     let formdata = new FormData(form_tryUsername);//libary obj, takes html form ele.
-    formdata.append('oldName', );
+    //formdata.append('',/&ep;);
     xhr.send(formdata);//send form data to php
-}
-
-tryBtn.onclick = () => {
-
-    //footer.style.display = footerStyleDisplay_og;
 }

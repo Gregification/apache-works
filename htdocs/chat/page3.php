@@ -16,8 +16,8 @@
                 <div class="dropdown">
                     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chat</a>
                     <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/chat/chats.html">chats</a></li>
-                        <li><a class="dropdown-item" href="/chat/usersearch.html">users</a></li>
+                        <li><a class="dropdown-item" href="/chat/chats.html">chat search</a></li>
+                        <li><a class="dropdown-item" href="/chat/usersearch.html">user search</a></li>
                         <li><a class="dropdown-item" href="/chat/stats.html">stats</a></li>
                     </ul>
                 </div>

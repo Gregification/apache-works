@@ -1,5 +1,12 @@
 <?php 
-    $conn;    
+    $conn;//pdo conneciton
+    $dbtables = array(
+        'user table' =>  '_users',
+        'image table'   =>  '_images',
+        'chat table'    =>  '_chats',
+        'chat table templet'    =>  '_chattemplet'
+    );
+
     try {
         $connectionInfo = json_decode(file_get_contents('/var/private_request/psqlConnectionInfo.json'), true);
         

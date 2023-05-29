@@ -14,10 +14,9 @@
                 <div class="dropdown">
                     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chat: users</a>
                     <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/chat/page3.html">home</a></li>
+                        <li><a class="dropdown-item" href="/chat/page3.html">chat</a></li>
                         <div class="dropdown-divider"></div>
-                        <li><a class="dropdown-item" href="/chat/chats.html">chats</a></li>
-                        <li><a class="dropdown-item" href="/chat/usersearch.html">users</a></li>
+                        <li><a class="dropdown-item" href="/chat/chats.html">chat search</a></li>
                         <li><a class="dropdown-item" href="/chat/stats.html">stats</a></li>
                         <div class="dropdown-divider"></div>
                         <li><button class="dropdown-item btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-user">user</button></li>
@@ -25,7 +24,7 @@
                 </div>
                 <div class="navbar-header">
                     <ul class="navbar-nav nav" id="__navbarlist"></ul> 
-                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/usersearch.html"></script>
+                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/page3.html"></script>
                 </div>
             </div>
         </nav>
@@ -59,19 +58,19 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" >User</h1>&ensp;
-                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label">Username here</h1>
+                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label" id="modal-user-usernamedisplay">Username here</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="form-modal-tryusername">
-                        <div class="modal-body">
-                            <div class="input-group mb-3">
+                    <div class="modal-body">
+                        <form id="form-modal-tryusername">
+                            <div class="input-group mb-3 newname">
                                 <div class="input-group-prepend">
                                 <button class="btn btn-outline-secondary rounded-0" type="submit">try</button> 
                                 </div>
                                 <input required name="newName" type="text" class="form-control" id="usernamerequest-input" placeholder="new name " aria-label="username" aria-describedby="basic-addon1" maxlength="255">
                             </div>
-                        </div>
-                    </form> 
+                        </form> 
+                    </div>
                     <!-- <div class="modal-footer">
                         <input type="submit" value="update">
                     </div> -->

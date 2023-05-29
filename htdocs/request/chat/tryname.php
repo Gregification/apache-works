@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include_once "/var/private_request/config.php";
     
     /* 
@@ -16,37 +17,48 @@
         // print $row['creationtime'] . "-->\t";
         // print $row['lastactivetime'] . "\n";
     // }
-
-    $fname = $_POST['newName'];
+    $fnewName = $_POST['newName'];
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    if(!empty($fname)){
-        $ev = $conn->prepare("select not exists (select 1 from _user where username=?);");
-        $ev->execute([$fname]);
-        if($ev->fetchColumn() == true) {
-
+    if(!empty($fnewName)){
+        $ev = $conn->prepare("select lastactivetime from ? where username=?;"); 
+        $ev->execute([$dbtables['user table'], $fnewName]);
+        $a = $ev->fetchColumn();
+        if($a == null) { 
             //add new user
             try{
                 $conn->beginTransaction();
                 $ev = $conn->prepare(
-                    "insert into _user (username,creationtime,lastactivetime) values (?, extract(epoch from now()), -1));"
+                    "insert into ? (username,creationtime,lastactivetime) values (?, extract(epoch from now()), -1);"
                     );
-                $ev->execute([$fname]);
+                $ev->execute([$dbtables['user table'], $fnewName]);
                 $conn->commit();
+
+                echo 'success_newUser';
             }catch (PDOException $e) {
                 $conn->rollBack();
-                throw $e;
+
+                echo 'fail_insertion';
             }
         }else{ //name already exists
-            //update row lastactive time to online
-            $ev = $conn->prepare(
-                "update _user set lastactivetime=-1 where username = ?;"
-            );
-            $ev->execute([$fname]);
-        }
-    }
+            
+            //if online
+            if($a == -1){
+                echo 'fail_userOnline'; 
+                return;
+            }
 
-    function setName($name){
-        global $conn;
-        
+            //update lastactivetime
+            $ev = $conn->prepare("update ? set lastactivetime = ? where username = ?;");
+            try{
+                $conn->beginTransaction();
+                $ev->execute([$dbtables['user table'], 'extract(epoch from now())', $_SESSION['username']]);//set former name offline
+                $conn->commit();
+            }catch(PDOException $e){    $conn->rollBack();  } //expected to fail if the orgional name dosent exist, in case susch as a new user
+            $ev->execute([$dbtables['user table'], -1, $fnewName]);//set new name online
+
+            $_SESSION['username'] = $fnewName;
+
+            echo 'success_adoptedNewName';
+        }
     }
 ?> 
