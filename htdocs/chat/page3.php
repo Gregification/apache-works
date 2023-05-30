@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 
+<?php
+    session_start();
+    include_once '/var/private_request/genName.php';
+    if(!isset($_SESSION['username']))   setNewUseableName(false);
+    echo 'username: '.$_SESSION['username'];
+?>
+
 <html lang="en" >
     <head>
         <meta charset="utf-8">
@@ -22,7 +29,7 @@
                 </div>
                 <div class="navbar-header">
                     <ul class="navbar-nav nav" id="__navbarlist"></ul> 
-                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/page3.html"></script>
+                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/page3.php"></script>
                 </div>
             </div>
         </nav>
