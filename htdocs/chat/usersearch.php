@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+        <script src="/script1.js"></script>
+        <script src="./tryname.js"></script>
         <title>chat</title>
     </head>
     <body style="background-color: #83b1a3"> 
@@ -14,10 +16,10 @@
                 <div class="dropdown">
                     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chat: users</a>
                     <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/chat/page3.html">chat</a></li>
+                        <li><a class="dropdown-item" href="/chat/page3.php">chat</a></li>
                         <div class="dropdown-divider"></div>
-                        <li><a class="dropdown-item" href="/chat/chats.html">chat search</a></li>
-                        <li><a class="dropdown-item" href="/chat/stats.html">stats</a></li>
+                        <li><a class="dropdown-item" href="/chat/chats.php">chat search</a></li>
+                        <li><a class="dropdown-item" href="/chat/stats.php">stats</a></li>
                         <div class="dropdown-divider"></div>
                         <li><button class="dropdown-item btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-user">user</button></li>
                     </ul>
@@ -77,8 +79,5 @@
                 </div>
             </div>
         </div>
-
-        <script src="/script1.js"></script>
-        <script src="./tryname.js"></script>
     </body>
 </html>
