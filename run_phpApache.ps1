@@ -136,7 +136,7 @@ if($old -ne $null){
     if($interactive){   Invoke-Expression $interactiveExpression; }
     if($visit)      {   sleep -Milliseconds 200;   Start-Process "http://localhost:8080";  }
 }else{ 
-    write-host "FAILED TO START APACHE:$container. quitting" -BackgroundColor Red -NoNewline;
+    write-host "FAILED TO START APACHE:$container" -BackgroundColor Red -NoNewline;
     return;
 }
 

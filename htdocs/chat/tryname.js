@@ -23,7 +23,7 @@ form_tryUsername.onsubmit = (v)=>{
                 }else if((/fail_/).test(data)){
                     alert(data);
                 }else{
-                    console.log('data: ' + data);
+                    console.log('data something else: ' + data);
                 }
             }
         }

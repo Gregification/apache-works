@@ -21,11 +21,10 @@ function genNavbarPageLi(){
     //if a target element(val) exists
     if((val = this_js.getAttribute('data-insertListID')) !== "undefined" ){
         const root = document.getElementById(val);
-        //console.log('val: ' + this_js.getAttribute('data-insertListID') + '\nelement: ' + root);
+
         fetch("/request/navbarpages.json").then((resp) => 
-            resp.json().then((data) => {
-                //console.log(data);
-                
+            resp.json().then((data) => {                
+
                 //takes host file out of navbar. compares by file path
                 if((filt = this_js.getAttribute("data-exclude")).length != 0) {
                     //regex evil. lose some functionality but works pretty much the same
@@ -33,8 +32,7 @@ function genNavbarPageLi(){
                         return !!!(ele.href.endsWith(filt)); //wonky -> https://stackoverflow.com/a/7052825
                     })
                 }
-                // console.log('FILTERED-------------------\n' +data);
-
+                
                 //creates html <li> elements for remaning pages
                 data.forEach((ele) => {
                     li = document.createElement("li");
@@ -43,6 +41,7 @@ function genNavbarPageLi(){
                         a.setAttribute('class','nav-link');
                         a.setAttribute('href',ele.href);
                         a.innerHTML = ele.as;
+                        
                     li.append(a);
                     root.append( li );
                 });
