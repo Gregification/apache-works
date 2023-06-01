@@ -146,6 +146,7 @@ if($old -ne $null){
 # psql
 #########################################
 # connection info updated when connected(see next section)
+
 $old = docker ps --filter "name=$dbContainer" -q;
 if($old -eq $null){
     $old = docker ps --filter "name=$dbContainer" -aq;
