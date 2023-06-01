@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 
 <?php
+    ob_start();
     include_once '/var/www/html/request/chat/login.php';
+    ob_end_clean();
 ?>
 
 <html lang="en" >
@@ -13,6 +15,7 @@
         <script src="/script1.js"></script>
         <title>chat</title>
     </head>
+    
     <body> 
         <nav class="navbar navbar-expand navbar-dark bg-black">
             <div class="container">

@@ -80,7 +80,5 @@
         }catch(PDOException $e){ 
             $conn->rollBack();
         }
-
-        return $gName;
     }
 ?>

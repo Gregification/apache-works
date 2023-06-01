@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 
 <?php
+    ob_start();
     include_once '/var/www/html/request/chat/login.php';
-    //if(!isset($_SESSION['username']))   header("location: /chat/page3.php");
+    ob_end_clean();
 ?>
 
 <html lang="en" >
