@@ -22,10 +22,10 @@ WINDOWS
 1. create a ```postgres:15``` container (ex: name->_testdb_ , port->_5432_)
 1. inside the new db, create a few tables with
     ```
-    create table if not exists _chattemplet (timeDelivered_u DATE,  id serial,  sentBy VARCHAR(255),    message VARCHAR(940));
-    create table if not exists _users       (username VARCHAR(255)  PRIMARY KEY,    creationtime BIGINT,    lastactivetime BIGINT);
-    create table if not exists _images      (id serial primary key, imgname varchar(512),   img bytea);
-    create table if not exists _chats       (title varchar(255),    usersonline int,    lastactivetime bigint);
+    create table if not exists _chattemplet (timeDelivered_u BIGINT PRIMARY KEY,  id serial,  sentBy VARCHAR(255),    message VARCHAR(940) NOT NULL);
+    create table if not exists _users       (username VARCHAR(255)  PRIMARY KEY,    creationtime BIGINT not null,    lastactivetime BIGINT not null);
+    create table if not exists _images      (id serial primary key, imgname varchar(512) NOT NULL,   img bytea);
+    create table if not exists _chats       (title varchar(255) NOT NULL,    usersonline int NOT NULL,    lastactivetime bigint NOT NULL);
     ```
 1. navigate to the folder containing [run_phpApache.ps1](https://github.com/Gregification/htmlfiddle/blob/main/run_phpApache.ps1)
 1. run ```.\run_phpApache.ps1 -rebuild -visit -dbContainer testdb -dbport 5432```

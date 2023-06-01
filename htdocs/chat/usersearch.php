@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 
+<?php
+    session_start();
+    if(!isset($_SESSION['username']))   header("location: /chat/page3.php");
+?>
+
 <html lang="en" >
     <head>
         <meta charset="utf-8">
@@ -26,7 +31,7 @@
                 </div>
                 <div class="navbar-header">
                     <ul class="navbar-nav nav" id="__navbarlist"></ul> 
-                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/page3.html"></script>
+                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/page3.php"></script>
                 </div>
             </div>
         </nav>
@@ -60,22 +65,46 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" >User</h1>&ensp;
-                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label" id="modal-user-usernamedisplay">Username here</h1>
+                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label" id="modal-user-usernamedisplay">
+                            <?php echo $_SESSION['username']; ?>
+                            <!--
+                                if(isset($_POST['btn_try'])){ 
+                                    echo "document.getElementById('modal-user-usernamedisplay').innerText = '" . $_SESSION['username'] . "'"; 
+                                }
+                            -->
+                        </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="form-modal-tryusername">
+                        <form id="form-modal-tryusername" method='post'>
                             <div class="input-group mb-3 newname">
                                 <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary rounded-0" type="submit">try</button> 
+                                <button class="btn btn-outline-secondary rounded-0" type="submit" name="btn_try">try</button> 
                                 </div>
                                 <input required name="newName" type="text" class="form-control" id="usernamerequest-input" placeholder="new name " aria-label="username" aria-describedby="basic-addon1" maxlength="255">
                             </div>
                         </form> 
                     </div>
-                    <!-- <div class="modal-footer">
-                        <input type="submit" value="update">
-                    </div> -->
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-secondary" onclick="setRandName(true)">random name</button>
+                        <script>
+                            function setRandName(v) {
+                                let xhr = new XMLHttpRequest();
+                                xhr.open("POST", "/request/chat/genSetName.php", true);
+                                xhr.onload = ()=>{
+                                    if(xhr.readyState === XMLHttpRequest.DONE){
+                                        if(xhr.status === 200){
+                                            document.getElementById('modal-user-usernamedisplay').innerText = xhr.response ;
+                                        }
+                                    }
+                                };
+
+                                let formdata = new FormData();
+                                formdata.append('usePreexistingName', v);
+                                xhr.send(formdata);
+                            }
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>

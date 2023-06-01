@@ -3,8 +3,8 @@
 <?php
     session_start();
     include_once '/var/private_request/genName.php';
-    if(!isset($_SESSION['username']))   setNewUseableName(false);
-    echo 'username: '.$_SESSION['username'];
+    if(!isset($_SESSION['username']))   $_SESSION['username'] = setNewUseableName(false);
+    //echo 'username: '.$_SESSION['username'];
 ?>
 
 <html lang="en" >

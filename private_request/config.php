@@ -1,11 +1,18 @@
 <?php 
     $conn;//pdo conneciton
-    $dbtables = array(
+    $dbinfo = array(
         'user table' =>  '_users',
         'image table'   =>  '_images',
         'chat table'    =>  '_chats',
-        'chat table templet'    =>  '_chattemplet'
+        'chat table templet'    =>  '_chattemplet',
+        'username charlimit' => 255
     );
+
+    /* 
+        $_SESSION
+            : username
+            : chatname
+    */
 
     try {
         $connectionInfo = json_decode(file_get_contents('/var/private_request/psqlConnectionInfo.json'), true);
