@@ -27,7 +27,6 @@
         return;
     }
 
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     if(!empty($fnewName)){
         //update lastactivetime for the new and old name
         $update_laT = $conn->prepare("update ".$dbinfo['user table']." set lastactivetime = ? where username = ?;");
@@ -35,7 +34,7 @@
 
         $select_laT->execute([$fnewName]);
         $laT = $select_laT->fetchColumn();
-        if($laT == null) { //user dne
+        if($laT == null) { //if new username dne
             //add new user
             try{
                 $insert_newUsr = $conn->prepare( "insert into ".$dbinfo['user table']." (username,creationtime,lastactivetime) values (?, extract(epoch from now()), -1);" );                
@@ -43,8 +42,7 @@
                 $insert_newUsr->execute([$fnewName]);
                 $conn->commit();
 
-                $_SESSION['username'] = $fnewName;
-                echo 'success_newUser ' . $_SESSION['username'];
+                echo 'success_newUser';
             }catch (PDOException $e) {
                 $conn->rollBack();
                 echo 'fail_insertion';
@@ -55,13 +53,18 @@
                 return;
             }
             
-            if(isset($_SESSION['username']))
-                $update_laT->execute(['extract(epoch from now())', $_SESSION['username']]);//set former name offline
-            
-            $update_laT->execute([-1, $fnewName]);//set new name online
+            //set new name online
+            $update_laT->execute([-1, $fnewName]);
 
-            $_SESSION['username'] = $fnewName;
-            echo 'success_newName ' . $_SESSION['username'];
+            echo 'success_newName';
         }
+
+        //set former name offline
+        if(isset($_SESSION['username'])){
+            $update_laT->execute([time(), $_SESSION['username']]);
+        }
+
+        $_SESSION['username'] = $fnewName;
+        echo ' ' . $_SESSION['username'];
     }
 ?> 

@@ -23,7 +23,9 @@
                 $q_pastName->execute();
                 $gName = $q_pastName->fetchColumn();
 
-            } if(empty($gName)){
+            }
+
+            if(empty($gName)){
                 /* determines the url source for random name generating
                 note: preffered word source is hosted nonprofessionaly so is not expected to be consistently online 
                 */
@@ -46,10 +48,9 @@
                     $numTries--;
                 }while($q_checkNameExists->fetchColumn() && $numTries >= 0);
 
-                if(!$q_checkNameExists->fetchColumn()) return $gName;
-                else {
+                //if name still dne
+                if($q_checkNameExists->fetchColumn()) {
                     //if this dosent solve it theres bigger problems...
-
                     $gName = hash('sha512', $gName);
                     do{
                         $gName += rand();

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-    session_start();
-    if(!isset($_SESSION['username']))   header("location: /chat/page3.php");
+    include_once '/var/www/html/request/chat/login.php';
+    //if(!isset($_SESSION['username']))   header("location: /chat/page3.php");
 ?>
 
 <html lang="en" >
@@ -94,6 +94,7 @@
                                 xhr.onload = ()=>{
                                     if(xhr.readyState === XMLHttpRequest.DONE){
                                         if(xhr.status === 200){
+                                            console.log('response: ' + xhr.response );
                                             document.getElementById('modal-user-usernamedisplay').innerText = xhr.response ;
                                         }
                                     }
