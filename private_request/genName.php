@@ -80,8 +80,6 @@
             $conn->rollBack();
         }
 
-        echo $gName;
-        return;
-
+        return $gName;
     }
 ?>

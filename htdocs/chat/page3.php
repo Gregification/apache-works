@@ -2,8 +2,9 @@
 
 <?php
     session_start();
+    // include_once '/var/request/chat/genSetName.php';
     include_once '/var/private_request/genName.php';
-    if(!isset($_SESSION['username']))   $_SESSION['username'] = setNewUseableName(false);
+    if(!isset($_SESSION['username']))  $_SESSION['username'] = setNewUseableName(true);
     //echo 'username: '.$_SESSION['username'];
 ?>
 
