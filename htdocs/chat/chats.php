@@ -51,7 +51,7 @@
                 <th>icon</th>
                 <th>name</th>
                 <th># online</th>
-                <th># posters</th>
+                <th>creation date</th>
                 <th>first event</th>
                 <th>latest event</th>
             </thread>
@@ -60,9 +60,9 @@
                     <td><a href="/chat/chats.html"><img class="rounded-0" src="/icon/default/icon.png"></a>                    </td>
                     <td><a href="/chat/chats.html">chatname</a></td>
                     <td>#</td>
-                    <td>#</td>
                     <td>date</td>
-                    <td>date</td>
+                    <td>time</td>
+                    <td>time</td>
                 </tr>
             </tbody>
         </table>

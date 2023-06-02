@@ -15,16 +15,15 @@
                 <div class="dropdown">
                     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chat stats</a>
                     <ul class="dropdown-menu dropdown-menu-start" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/chat/page3.php">home</a></li>
+                        <li><a class="dropdown-item" href="/chat/page3.php">chat</a></li>
                         <div class="dropdown-divider"></div>
                         <li><a class="dropdown-item" href="/chat/chats.php">chat search</a></li>
                         <li><a class="dropdown-item" href="/chat/usersearch.php">user search</a></li>
-                        <li><a class="dropdown-item" href="/chat/stats.php">stats</a></li>
                     </ul>
                 </div>
                 <div class="navbar-header">
                     <ul class="navbar-nav nav" id="__navbarlist"></ul> 
-                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/stats.php"></script>
+                    <script type="text/javascript" src="/request/navbar.js" data-insertListID="__navbarlist" data-exclude="/chat/page3.php"></script>
                 </div>
             </div>
         </nav>

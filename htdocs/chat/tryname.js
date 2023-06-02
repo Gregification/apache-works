@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", function(){
-    const   content =   document.querySelector("#modal-user .modal-content"),
+    const   //content =   document.querySelector("#modal-user .modal-content"),
         //header  =   content.querySelector(".modal-header"),
-        body    =   content.querySelector(".modal-body"),
-        // footer  =   content.querySelector(".modal-footer"),
+        // body    =   content.querySelector(".modal-body"),
         //userNameDis =   header.querySelector("#modal-user-usernamedisplay"),
-        form_tryUsername   =   body.querySelector("#form-modal-tryusername")
+        form_tryUsername   =   document.getElementById("form-modal-tryusername")
         ;
 
-    //footer.style.display = "none";
     form_tryUsername.onsubmit = (v)=>{
         v.preventDefault();
 
@@ -16,16 +14,12 @@ document.addEventListener("DOMContentLoaded", function(){
         xhr.onload = ()=>{
             if(xhr.readyState === XMLHttpRequest.DONE){
                 if(xhr.status === 200){
-                    let data = xhr.response;
-                    if((/success/).test(data)){
+                    let res = xhr.response;
+                    if((/success/).test(res)){
                         form_tryUsername.querySelector("input[name='newName']").value = '';
-                        console.log('data: ' + data);
-                        document.getElementById('modal-user-usernamedisplay').innerText = data.substring(data.indexOf(' ') + 1);
-                    }else if((/fail_/).test(data)){
-                        alert(data);
-                    }else{
-                        // alert(data);
-                        // console.log('data something else: ' + data);
+                        document.getElementById('modal-user-usernamedisplay').innerText = res.substring(res.indexOf(' ') + 1);
+                    }else if((/fail/).test(res)){
+                        alert(res);
                     }
                 }
             }
