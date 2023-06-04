@@ -8,14 +8,27 @@
     */
     include_once "/var/private_request/config.php";
 
-    function setNewUseableName(bool $allowPreexisting){
+    function name_exists($name){
+        global $conn, $dbinfo;
+
+        $q_checkNameExists  =   $conn->prepare("select exists (select 1 from " . $dbinfo['user table'] . " where username=?);");
+        $q_checkNameExists->execute([$name]);
+        return $q_checkNameExists->fetchColumn();
+    }
+
+    function name_setLaT($name, $time){
+        global $conn, $dbinfo;
+
+        $update_laT = $conn->prepare("update ".$dbinfo['user table']." set lastactivetime = :time where username = :name;");
+        $update_laT->execute(['name' => $name, 'time' => $time]);
+    }
+
+    function genSet_useablename(bool $allowPreexisting){
         global $conn, $dbinfo;
 
         $gName = '';
 
         try{
-            $update_laT = $conn->prepare("update ".$dbinfo['user table']." set lastactivetime = ? where username = ?;");
-
             $conn->beginTransaction();
             if($allowPreexisting){ //searches prexisting names that are offline
                 //snabs the name offline the longest
@@ -25,7 +38,7 @@
 
             }
 
-            if(empty($gName)){
+            if(empty($gName)){//if a preexisting name is not avaliable
                 /* determines the url source for random name generating
                 note: preffered word source is hosted nonprofessionaly so is not expected to be consistently online 
                 */
@@ -40,6 +53,8 @@
                             return substr($r,0, $dbinfo['username charlimit']);
                         }
                     ;
+
+                //same as name_exists() but better not it since its repetative otherwise
                 $q_checkNameExists  =   $conn->prepare("select exists (select 1 from " . $dbinfo['user table'] . " where username=?);");
                 $numTries = 10;
                 do{
@@ -68,11 +83,11 @@
                 $insert_newUsr->execute([$gName]);
 
             }else{ //a used name was selected. set it online
-                $update_laT->execute([-1, $gName]);
+                name_setLaT($gName, -1);
             }
             
             //set former name, if avaliable, offline
-            if(isset($_SESSION['username']))    $update_laT->execute(['extract(epoch from now())', $_SESSION['username']]);
+            if(isset($_SESSION['username']) && name_exists($_SESSION['username']))  name_setLaT($_SESSION['username'], time());
             
             $_SESSION['username'] = $gName;
 

@@ -4,8 +4,12 @@
     */
     session_start();
     include_once "/var/private_request/genName.php";
+    
+    $usePreexisting = $_POST['usepreexisting'];
+    
+    if(!isset($usePreexisting)) $usePreexisting = true;
 
-    $v = 'usePreexistingName';
-    setNewUseableName(isset($_POST[$v]) ? $_POST[$v] : false);
+    genSet_useablename($usePreexisting);
+    echo $_SESSION['username'];
     return;
 ?>

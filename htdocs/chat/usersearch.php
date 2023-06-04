@@ -13,7 +13,6 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
         <script src="/chat/usersearch.js"></script>
-        <script src="/chat/tryname.js"></script>
         <title>chat</title>
     </head>
     <body style="background-color: #83b1a3"> 
@@ -65,24 +64,44 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <label for="batchsize">Results per page</label>
+                        <select class="form-select" name="batchsize" id="batchsize">
+                            <option selected value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
                 </form>
             </div>
             <br>
-            
             <div class="container" style="background-color: #abf1d228">
                 <!-- user cards -->
-                <div class="card-columns p-1" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 5px;">
-                    <div class="card" style="max-width: 100%; min-width: 3in;">
-                        <div class="card-header">
-                            username
-                        </div>
-                        <img class="card-img-top rounded-0" src="/icon/default/icon.png">
-                        <small class="card-text text-muted">last active</small>
-                        <div class="card-body" style="flex: 1">
-                            
+                <div id="usercards">
+                    <div class="card-columns p-1" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 5px;">
+                        <div class="card" style="max-width: 100%; min-width: 3in;">
+                            <div class="card-header">
+                                username
+                            </div>
+                            <img class="card-img-top rounded-0" src="/icon/default/icon.png">
+                            <small class="card-text text-muted">last active</small>
+                            <div class="card-body" style="flex: 1">
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
+                <nav class="row justify-content-center">
+                    <ul class="pagination justify-content-center" id="paginationBottom">
+                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
 
@@ -92,7 +111,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" >User</h1>&ensp;
-                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label" id="modal-user-usernamedisplay">
+                        <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label" style="word-wrap: break-word;" id="modal-user-usernamedisplay">
                             <?php echo $_SESSION['username']; ?>
                             <!--
                                 if(isset($_POST['btn_try'])){ 
@@ -113,25 +132,7 @@
                         </form> 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-outline-secondary" onclick="setRandName(true)">random name</button>
-                        <script>
-                            function setRandName(v) {
-                                let xhr = new XMLHttpRequest();
-                                xhr.open("POST", "/request/chat/genSetName.php", true);
-                                xhr.onload = ()=>{
-                                    if(xhr.readyState === XMLHttpRequest.DONE){
-                                        if(xhr.status === 200){
-                                            console.log('response: ' + xhr.response );
-                                            document.getElementById('modal-user-usernamedisplay').innerText = xhr.response ;
-                                        }
-                                    }
-                                };
-
-                                let formdata = new FormData();
-                                formdata.append('usePreexistingName', v);
-                                xhr.send(formdata);
-                            }
-                        </script>
+                        <button class="btn btn-outline-secondary" id="rndName_btn">random name</button>
                     </div>
                 </div>
             </div>

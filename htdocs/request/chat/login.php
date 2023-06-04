@@ -4,6 +4,8 @@
         session_start();
         
         include_once '/var/private_request/genName.php';
-        if(!isset($_SESSION['username'])) setNewUseableName(true);
+
+        //if [name dne] or [invalid session name] 
+        if(!isset($_SESSION['username']) || !name_exists($_SESSION['username'])) genSet_useablename(true);
     ?>
 </h1>
