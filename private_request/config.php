@@ -1,11 +1,19 @@
 <?php 
     $conn;//pdo conneciton
+
+    //all table columns should be lowercase
     $dbinfo = array(
         'user table' =>  '_users',
         'image table'   =>  '_images',
         'chat table'    =>  '_chats',
         'chat table templet'    =>  '_chattemplet',
-        'username charlimit' => 255
+        'username charlimit' => 255,
+        'user columns' => array(
+                'username',
+                'lastactivetime',
+                'creationtime',
+                'description'
+            )
     );
 
     /* 

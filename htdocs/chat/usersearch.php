@@ -16,7 +16,7 @@
         <title>chat</title>
     </head>
     <body style="background-color: #83b1a3"> 
-        <nav class="navbar navbar-expand navbar-dark bg-black">
+        <nav class="navbar navbar-expand navbar-dark bg-black sticky-top">
             <div class="container">
                 <div class="dropdown">
                     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chat: users</a>
@@ -37,56 +37,73 @@
         </nav>
         
         <div class="container" style="background-color: #a2c0a5;">
-            <!-- serach -->
+            <!-- serach form -->
             <div class="container" style="background-color: #abf1d228">
                 <form id="form-usersearch">
                     <div class="row">
                         <lable for="">Keyword</lable>
                         <div class="input-group">
-                            <input type="text" name="searchTerm" class="form-control" placeholder="keyword(POSIX regex used)...">
+                            <input type="text" name="searchTerm" class="form-control" placeholder="username...">
                             <button class="btn" style=" background-color: #34eb98" type="submit">Search</button>
                         </div>
                     </div>
                     <div class="row">
-                        <label for="orderBy">Order By</label>
+                        <lable for="cmpari">Compair against</lable>
                         <div class="input-group col">
-                            <select class="form-select" name="orderBy" id="orderBy">
+                            <select class="form-select" name="cmpari" id="cmpari">
                                 <option selected value="username">Username</option>
                                 <option value="creationtime">Creation time</option>
                                 <option value="lastactivetime">Last active</option>
                                 <option value="description">Description</option>
                             </select>
                         </div>
-                        <div class="input-group col">
-                            <select class="form-select" name="dr" id="dr">
-                                <option selected value="acending">Acending</option>
-                                <option value="decending">Decending</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="row">
-                        <label for="batchsize">Results per page</label>
-                        <select class="form-select" name="batchsize" id="batchsize">
-                            <option selected value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="all">All</option>
-                        </select>
+                        <div class="col">
+                            <label for="orderBy">Order By</label>
+                            <div class="input-group">
+                                <select class="form-select" name="orderBy" id="orderBy">
+                                    <option selected value="username">Username</option>
+                                    <option value="creationtime">Creation time</option>
+                                    <option value="lastactivetime">Last active</option>
+                                    <option value="description">Description</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="orderBy">Sort</label>
+                            <div class="input-group">
+                                <select class="form-select" name="dr" id="dr">
+                                    <option selected value="asc">Acending</option>
+                                    <option value="desc">Decending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="batchsize">Results per page</label>
+                            <select class="form-select" name="batchsize" id="batchsize">
+                                <option value="all">All</option>
+                                <option selected value="5">5</option>
+                                <option selected value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="40">40</option>
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
             <br>
-            <div class="container" style="background-color: #abf1d228">
+            <div class="container" style="background-color: #abf1d228;">
                 <!-- user cards -->
-                <div id="usercards">
-                    <div class="card-columns p-1" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 5px;">
-                        <div class="card" style="max-width: 100%; min-width: 3in;">
-                            <div class="card-header">
-                                username
-                            </div>
-                            <img class="card-img-top rounded-0" src="/icon/default/icon.png">
-                            <small class="card-text text-muted">last active</small>
-                            <div class="card-body" style="flex: 1">
-                                
+                <div class="card-columns p-1" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 5px;" id="usercards">
+                    <div hidden class="card" style="min-width: 200px; max-width: 30%;">
+                        <img class="card-img-top rounded-0" src="/icon/default/icon.png">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">description</p>
+                            <div class="justify-content-between">
+                                <small class="text-muted text-left">join#</small>
+                                <small class="text-muted text-right">onlinehr#</small>
                             </div>
                         </div>
                     </div>
@@ -113,23 +130,24 @@
                         <h1 class="modal-title fs-5" >User</h1>&ensp;
                         <h1 class="modal-title fs-5 border border-primary border-2 border-opacity-15 rounded-2 modal-user-label" style="word-wrap: break-word;" id="modal-user-usernamedisplay">
                             <?php echo $_SESSION['username']; ?>
-                            <!--
-                                if(isset($_POST['btn_try'])){ 
-                                    echo "document.getElementById('modal-user-usernamedisplay').innerText = '" . $_SESSION['username'] . "'"; 
-                                }
-                            -->
                         </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form id="form-modal-tryusername" method='post'>
+                            <label for="btn_try">Name</label>
                             <div class="input-group mb-3 newname">
-                                <div class="input-group-prepend">
-                                <button class="btn btn-outline-secondary rounded-0" type="submit" name="btn_try">try</button> 
-                                </div>
-                                <input required name="newName" type="text" class="form-control" id="usernamerequest-input" placeholder="new name " aria-label="username" aria-describedby="basic-addon1" maxlength="255">
+                                <button class="btn btn-outline-secondary rounded-0" type="submit" name="btn_try" id="btn_try">try</button> 
+                                <input required name="newName" type="text" class="form-control" id="usernamerequest-input" placeholder="timmy" aria-label="username" aria-describedby="basic-addon1" maxlength="255">
                             </div>
-                        </form> 
+                        </form>
+                        <form id="form-modal-description">
+                            <lable for="usr_description">Description</lable>
+                            <button class="btn btn-outline-secondary rounded-0 border-opacity-0" type="submit" name="btn_description" id="btn_description">update</button> 
+                            <div>
+                                <textarea required type="text" name="description" id="usr_description" placeholder="something something"  maxlength="500" style="width: 100%; min-height: 5rem;"></textarea>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-outline-secondary" id="rndName_btn">random name</button>
@@ -137,5 +155,6 @@
                 </div>
             </div>
         </div>
+        
     </body>
 </html>
