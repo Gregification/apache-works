@@ -8,54 +8,83 @@ document.addEventListener("DOMContentLoaded", function(){
         decpt_txt       = document.getElementById("usr_description"),
         decpt_btn       = document.getElementById("btn_description"),
         usercard_container  = document.getElementById("usercards"),
-        usercard_templet    = document.querySelector(".card").cloneNode(true)
+        usercard_templet    = usercard_container.querySelector("template").content.querySelector(".card").cloneNode(true) //document.querySelector("#card-template > div.card").cloneNode(true)
         ;
-
-    usercard_templet.removeAttribute('hidden');
-    usercard_container.innerHTML = '';
     
     //////////////////////////////////////////////////
     //search request
     //////////////////////////////////////////////////
+    /*
     form_srch.onsubmit = (v)=>{
         v.preventDefault();//maybe
         let fd = new FormData(form_srch);
-            fd.append('pgnum', 0);
+            // fd.append('pgnum', 0);
 
         let xhr = new XMLHttpRequest();
-        xhr.open("POST", '/request/chat/searchUsers.php', true);
+        xhr.open("GET", '/request/chat/searchUsers.php', true);
         xhr.onload = ()=>{
             if(xhr.readyState === XMLHttpRequest.DONE){
                 if(xhr.status === 200){
                     usercard_container.innerHTML = '';
-
+                    let curETime = Date.now()/1000;
                     data = JSON.parse(xhr.response);
                     for(const val of data.values()){
                         crd = usercard_templet.cloneNode(true);
+                        
                         crd.querySelector(".card-title").innerText = val['username'];
-                        crd.querySelector("small.text-left").innerText = val['creationtime'];
-                        crd.querySelector("small.text-right").innerText = val['lastactivetime'];
+
+                        let d = new Date(0);
+                        d.setSeconds(val['creationtime']);
+                        crd.querySelector("small.text-left").innerText = d.toLocaleDateString() + " | ";
+
+                        crd.querySelector("small.text-right").innerText = (
+                            (lat = val['lastactivetime']) <= 0   ? 'online'
+                                :   ((curETime - lat)/(36e2)).toFixed(1) + "hr ago"
+                        );
+                        
                         crd.querySelector(".card-text").innerText = val['description'];
+                        
                         usercard_container.appendChild(crd);
                     }
-                    /* 
-                    <div hidden class="card" style="max-width: 100%; min-width: 200px;">
-                        <img class="card-img-top rounded-0" src="/icon/default/icon.png">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">description</p>
-                            <div class="justify-content-between">
-                                <small class="text-muted text-left">join#</small>
-                                <small class="text-muted text-right">onlinehr#</small>
-                            </div>
-                        </div>
-                    </div>
-                    */
                 }
             }
         };
         xhr.send(fd);
     }
+    */
+    
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", '/request/chat/searchUsers.php' + window.location.search, true);
+    xhr.onload = ()=>{
+        if(xhr.readyState === XMLHttpRequest.DONE){
+            if(xhr.status === 200){
+                // console.log('params:\n' + window.location.search);
+                // console.log('res:\n' + xhr.response);
+                let curETime = Date.now()/1000;
+                data = JSON.parse(xhr.response);
+
+                for(const val of data.values()){
+                    crd = usercard_templet.cloneNode(true);
+                    
+                    crd.querySelector(".card-title").innerText = val['username'];
+
+                    let d = new Date(0);
+                    d.setSeconds(val['creationtime']);
+                    crd.querySelector("small.text-left").innerText = d.toLocaleDateString() + " | ";
+
+                    crd.querySelector("small.text-right").innerText = (
+                        (lat = val['lastactivetime']) <= 0   ? 'online'
+                            :   ((curETime - lat)/(36e2)).toFixed(1) + "hr ago"
+                    );
+                    
+                    crd.querySelector(".card-text").innerText = val['description'];
+                    
+                    usercard_container.appendChild(crd);
+                }
+            }
+        }
+    };
+    xhr.send(null);
 
     //////////////////////////////////////////////////
     //page number handling

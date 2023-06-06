@@ -43,7 +43,7 @@
                     <div class="row">
                         <lable for="">Keyword</lable>
                         <div class="input-group">
-                            <input type="text" name="searchTerm" class="form-control" placeholder="username...">
+                            <input type="text" name="searchTerm" class="form-control" placeholder="terms..." value="<?php echo $_GET['searchTerm'] ?? null ?>">
                             <button class="btn" style=" background-color: #34eb98" type="submit">Search</button>
                         </div>
                     </div>
@@ -74,8 +74,8 @@
                             <label for="orderBy">Sort</label>
                             <div class="input-group">
                                 <select class="form-select" name="dr" id="dr">
-                                    <option selected value="asc">Acending</option>
-                                    <option value="desc">Decending</option>
+                                    <option <?php echo (($_GET['dr']??null)=='asc'?'selected':'') ?> value="asc">Acending</option>
+                                    <option <?php echo (($_GET['dr']??null)=='desc'?'selected':'') ?> value="desc">Decending</option>
                                 </select>
                             </div>
                         </div>
@@ -96,28 +96,33 @@
             <div class="container" style="background-color: #abf1d228;">
                 <!-- user cards -->
                 <div class="card-columns p-1" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 5px;" id="usercards">
-                    <div hidden class="card" style="min-width: 200px; max-width: 30%;">
-                        <img class="card-img-top rounded-0" src="/icon/default/icon.png">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">description</p>
-                            <div class="justify-content-between">
-                                <small class="text-muted text-left">join#</small>
-                                <small class="text-muted text-right">onlinehr#</small>
+                    <template>
+                        <div class="card" style="min-width: 200px; max-width: 30%;">
+                            <img class="card-img-top rounded-0" src="/icon/default/icon.png">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">description</p>
+                                <div class="justify-content-between">
+                                    <small class="text-muted text-left">join#</small>
+                                    <small class="text-muted text-right">onlinehr#</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
+                <!-- pagination (bottom) -->
                 <nav class="row justify-content-center">
-                    <ul class="pagination justify-content-center" id="paginationBottom">
-                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
+                    <form id="form-paginationBottom">
+                        <ul class="pagination justify-content-center" id="paginationBottom-ui">
+                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </form>
                 </nav>
             </div>
         </div>
