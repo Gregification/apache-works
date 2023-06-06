@@ -11,7 +11,7 @@
 
     //validation w/ defaults
     if(!is_numeric($offset))    $offset = 0;
-    if(!is_numeric($limit) && !strcasecmp($limit, 'all'))    $limit  = 'all';
+    if(!is_numeric($limit) && !strcasecmp($limit, 'all'))    $limit  = '10';
     if(!strcasecmp($dr, 'asc') && !strcasecmp($dr, 'desc')) $dr     = 'asc';
     if(!in_array($ordby, $dbinfo['user columns'], false))    $ordby  = 'username';
     if(!in_array($cmpari, $dbinfo['user columns'], false))   $cmpari = 'username';

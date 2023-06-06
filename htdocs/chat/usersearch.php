@@ -83,7 +83,7 @@
                             <label for="batchsize">Results per page</label>
                             <select class="form-select" name="batchsize" id="batchsize">
                                 <option value="all">All</option>
-                                <option selected value="5">5</option>
+                                <option value="5">5</option>
                                 <option selected value="10">10</option>
                                 <option value="20">20</option>
                                 <option value="40">40</option>
@@ -95,9 +95,9 @@
             <br>
             <div class="container" style="background-color: #abf1d228;">
                 <!-- user cards -->
-                <div class="card-columns p-1" style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 5px;" id="usercards">
+                <div class="card-group p-1" id="usercards">
                     <template>
-                        <div class="card" style="min-width: 200px; max-width: 30%;">
+                        <div class="card mx-auto" style="min-width: 200px; max-width: fll-content; min-height: 150px ;max-height: fit-content;">
                             <img class="card-img-top rounded-0" src="/icon/default/icon.png">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
@@ -111,18 +111,12 @@
                     </template>
                 </div>
                 <!-- pagination (bottom) -->
-                <nav class="row justify-content-center">
-                    <form id="form-paginationBottom">
-                        <ul class="pagination justify-content-center" id="paginationBottom-ui">
-                            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </form>
+                <nav class="row justify-content-center" id="paginationBottom">
+                    <ul class="pagination justify-content-center" id="paginationBottom-ui">
+                        <template> <li class="page-item"><a class="page-link">1</a></li> </template>
+                        <li class="page-item previous"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+                        <li class="page-item next"><a class="page-link" href="#">Next</a></li>
+                    </ul>
                 </nav>
             </div>
         </div>

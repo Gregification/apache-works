@@ -1,16 +1,41 @@
 document.addEventListener("DOMContentLoaded", function(){
     const   form_srch   = document.getElementById("form-usersearch"),
+        srch_batchSize  = form_srch.querySelector("#batchsize"),
+        srch_cmpAgainst = form_srch.querySelector("#cmpari"),
+        srch_ordBy      = form_srch.querySelector("#orderBy"),
         nameDisplay     = document.getElementById("modal-user-usernamedisplay"),
         form_tryUsername    = document.getElementById("form-modal-tryusername"),
-        paginationBottom_ul = document.getElementById("paginationBottom"),
+        pginatBottom_ul = document.getElementById("paginationBottom"),
+        pginat_lknTemplate   = pginatBottom_ul.querySelector("template").content.querySelector(".page-item"),
         rndName_btn     = document.getElementById("rndName_btn"),
         form_decpt      = document.getElementById("form-modal-description"),
         decpt_txt       = document.getElementById("usr_description"),
         decpt_btn       = document.getElementById("btn_description"),
         usercard_container  = document.getElementById("usercards"),
-        usercard_templet    = usercard_container.querySelector("template").content.querySelector(".card").cloneNode(true) //document.querySelector("#card-template > div.card").cloneNode(true)
+        usercard_template    = usercard_container.querySelector("template").content.querySelector(".card") //.cloneNode(true) //document.querySelector("#card-template > div.card").cloneNode(true)
         ;
-    
+        // urlParams       = new URLSearchParams(window.location.search);
+        // urlParams.set('pgnum', 9);
+        // console.log(urlParams.toString());
+
+    //////////////////////////////////////////////////
+    //prefil search -php ahndles some of it already but looks like crap. js better
+    //////////////////////////////////////////////////
+    {
+        let _urlParams  = new URLSearchParams(window.location.search);
+
+        if(_urlParams.has("batchsize")) _selSelected(srch_batchSize.querySelectorAll("option")  , _urlParams.get('batchsize'));
+        if(_urlParams.has("cmpari"))    _selSelected(srch_cmpAgainst.querySelectorAll("option") , _urlParams.get('cmpari'));
+        if(_urlParams.has("orderBy"))   _selSelected(srch_ordBy.querySelectorAll("option")      , _urlParams.get('orderBy'));
+        
+        function _selSelected(eleArr, srchVal){
+            eleArr.forEach((v)=>{
+                if(v.getAttribute('value') == srchVal)  v.setAttribute("selected","");
+                else    v.removeAttribute('selected');
+            });
+        }
+    }
+
     //////////////////////////////////////////////////
     //search request
     //////////////////////////////////////////////////
@@ -60,11 +85,13 @@ document.addEventListener("DOMContentLoaded", function(){
             if(xhr.status === 200){
                 // console.log('params:\n' + window.location.search);
                 // console.log('res:\n' + xhr.response);
-                let curETime = Date.now()/1000;
-                data = JSON.parse(xhr.response);
+                let curETime    = Date.now()/1000,
+                    data        = JSON.parse(xhr.response)
+                    ;
+                window.localStorage.setItem('resultCount', data.length);
 
                 for(const val of data.values()){
-                    crd = usercard_templet.cloneNode(true);
+                    let crd = usercard_template.cloneNode(true);
                     
                     crd.querySelector(".card-title").innerText = val['username'];
 
@@ -89,6 +116,71 @@ document.addEventListener("DOMContentLoaded", function(){
     //////////////////////////////////////////////////
     //page number handling
     //////////////////////////////////////////////////
+    xhr.addEventListener('load', ()=> {
+        let _numprior   = 3,
+            _numnext    = 0,
+            _urlParams  = new URLSearchParams(window.location.search),
+            _pgnum      = _urlParams.has('pgnum') ? parseInt(_urlParams.get('pgnum')) : 0,
+            _liPrevious = pginatBottom_ul.querySelector(".previous"),
+            _liNext     = pginatBottom_ul.querySelector(".next")
+        ;
+
+        console.log(window.localStorage.getItem('resultCount'));
+        console.log(_urlParams.get('batchsize'));
+
+        if(_pgnum <= 0) _liPrevious.classList.add('disabled');
+        else{
+            _liPrevious.querySelector("a").setAttribute('href', _setGetPgNumLink(_urlParams, _pgnum-1));
+            let ele = _liPrevious.cloneNode(true);
+            let a = ele.querySelector("a");
+                a.setAttribute('href', _setGetPgNumLink(_urlParams, 0));
+                a.innerText = 'First';
+
+            _liPrevious.insertAdjacentElement('beforebegin', ele);
+        }
+
+        if(_urlParams.has('batchsize') ? 
+                (_urlParams.get('batchsize') == 'all' ? 
+                    true 
+                :  
+                    window.localStorage.getItem('resultCount') > _urlParams.get('batchsize')) //double negative. the ">" acts as a "<"
+            : 
+                false)
+            _liNext.classList.add('disabled');
+        else    _liNext.querySelector("a").setAttribute('href', _setGetPgNumLink(_urlParams, _pgnum+1));
+
+        for(i = (_pgnum-_numprior) < 0 ? 0 : (_pgnum-_numprior); i < _pgnum; i++){
+            _insert_lnkTemplate(i,_liNext,pginat_lknTemplate);
+        }
+        // if((_urlParams.has('batchsize') && (bch = _urlParams.get('batchsize')) != 'all') ? )
+        for(i = _pgnum+1; i <= _pgnum+_numnext; i++){
+            _insert_lnkTemplate(i,_liNext,pginat_lknTemplate);
+        }
+
+        function _insert_lnkTemplate(i, apdTo, template){
+            let ele = template.cloneNode(true);
+
+            let a = ele.querySelector("a.page-link");
+                a.setAttribute("href", _setGetPgNumLink(_urlParams, i));
+                a.innerText = i;
+            
+            apdTo.insertAdjacentElement('beforebegin', ele);
+        }
+
+        function _setGetPgNumLink(params, num){
+            params.set('pgnum', num);
+            return window.location.pathname + '?' + params.toString();
+        }
+    });
+
+    /* 
+        <ul class="pagination justify-content-center" id="paginationBottom-ui">
+            <template> <li class="page-item"><a class="page-link">1</a></li> </template>
+            <li class="page-item previous"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+            <li class="page-item next"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    */
+
 
     //////////////////////////////////////////////////
     //try new name
