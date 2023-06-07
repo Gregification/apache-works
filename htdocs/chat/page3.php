@@ -17,7 +17,7 @@
     </head>
     
     <body> 
-        <nav class="navbar navbar-expand navbar-dark bg-black">
+        <nav class="navbar navbar-expand navbar-dark bg-black sticky-top">
             <div class="container">
                 <div class="dropdown">
                     <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chat</a>

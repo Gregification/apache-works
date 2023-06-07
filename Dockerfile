@@ -1,11 +1,11 @@
 #see refrence -> https://stackoverflow.com/questions/45432203/how-to-install-pgsql-driver-on-docker-php7-1-apache
 #php versions are mismatched. cant find a list of image versions so it stays as such
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 # php           #######################
 RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork \
-    php7 \
+    #php8 \ #???: dont quite know where the actual php version is comming from. i rememeber this fixing it when i added this line but it still works without it now(?idk)
     ssl
 RUN apt-get update
 RUN apt-get install -y libpq-dev \

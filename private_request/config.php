@@ -8,11 +8,20 @@
         'chat table'    =>  '_chats',
         'chat table templet'    =>  '_chattemplet',
         'username charlimit' => 255,
+        'chat title charlimit' => 255,
+        'chat description charlimit' => 1500,
         'user columns' => array(
                 'username',
                 'lastactivetime',
                 'creationtime',
                 'description'
+            ),
+        'chat columns' => array(
+                'title',
+                'lastactivetime',
+                'creationtime',
+                'description',
+                'usersonline'
             )
     );
 

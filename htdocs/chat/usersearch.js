@@ -123,10 +123,11 @@ document.addEventListener("DOMContentLoaded", function(){
             _pgnum      = _urlParams.has('pgnum') ? parseInt(_urlParams.get('pgnum')) : 0,
             _liPrevious = pginatBottom_ul.querySelector(".previous"),
             _liNext     = pginatBottom_ul.querySelector(".next")
+            _eff_batchSize  = (_urlParams.has('batchsize') ? _urlParams.get('batchsize') : srch_batchSize.value);
         ;
 
         console.log(window.localStorage.getItem('resultCount'));
-        console.log(_urlParams.get('batchsize'));
+        console.log(_eff_batchSize);
 
         if(_pgnum <= 0) _liPrevious.classList.add('disabled');
         else{
@@ -140,10 +141,10 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         if(_urlParams.has('batchsize') ? 
-                (_urlParams.get('batchsize') == 'all' ? 
+                (_eff_batchSize == 'all' ? 
                     true 
                 :  
-                    window.localStorage.getItem('resultCount') > _urlParams.get('batchsize')) //double negative. the ">" acts as a "<"
+                    window.localStorage.getItem('resultCount') < _eff_batchSize)
             : 
                 false)
             _liNext.classList.add('disabled');
