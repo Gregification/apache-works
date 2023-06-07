@@ -27,11 +27,19 @@ document.addEventListener("DOMContentLoaded", function(){
     //////////////////////////////////////////////////
     //search handler
     //////////////////////////////////////////////////
+    form_srch.addEventListener('submit', (v)=>{
+        //theres most defiently a better way to do this but i cant find anything on it
+        let a = document.createElement('input');
+            a.setAttribute('name', 'select');
+            a.setAttribute('value', 'title,usersonline,description');
+        form_srch.appendChild(a);
+    });
+
     let srch_xhr = new XMLHttpRequest();
     srch_xhr.open("GET", '/request/chat/searchChats.php' + window.location.search, true)
     srch_xhr.addEventListener('load', () =>{
         if(srch_xhr.readyState === XMLHttpRequest.DONE && srch_xhr.status == 200){
-            console.log('ret:\n' + srch_xhr.response);
+            // console.log('ret:\n' + srch_xhr.response);
 
             let curETime    = Date.now()/1000,
                 data        = JSON.parse(srch_xhr.response)
@@ -61,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 //3 : descripiton 
                 eles[3].innerText = val['descripiton'];
 
-                t_body.insertAdjacentElement("beforeend", crd);
+                t_body.insertAdjacentElement("beforeend", row);
             }
         }
     });

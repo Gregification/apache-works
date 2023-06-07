@@ -110,12 +110,12 @@
             <tbody id="tbody">
                 <template>
                     <tr>
-                        <td><a href="/chat/chats.html"><img class="rounded-0" src="/icon/default/icon.png"></a>                    </td>
-                        <td><a href="/chat/chats.html">chatname</a></td>
-                        <td>#</td>
+                        <td colspan="4"><a href="/chat/chats.html"><img class="rounded-0" src="/icon/default/icon.png"></a></td>
+                        <td colspan="5"><a href="/chat/chats.html">tutle</a></td>
+                        <td colspan="3">#online</td>
                         <!-- <td>date</td>
                         <td>time</td> -->
-                        <td>description</td>
+                        <td colspan="8">description</td>
                     </tr>
                 </template>
             </tbody>

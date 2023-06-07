@@ -40,7 +40,7 @@
     }else{
         $srch   = $conn->prepare("select $select from ".$dbinfo['chat table']." where $cmpari like :term order by $ordby $dr limit $limit offset $offset;");
         $srch->execute(['term' => $term]);
-        echo print_r("term: " . $term . "\r\nordby: " . $ordby . "\r\ncmpari: " . $cmpari . "\r\ndr: " . $dr . "\r\nlimit: " . $limit . "\r\noffset: " . $offset . "\r\niscount: " . $iscount . "\r\nselect: " . $select . "\r\n");
+        // echo print_r("term: " . $term . "\r\nordby: " . $ordby . "\r\ncmpari: " . $cmpari . "\r\ndr: " . $dr . "\r\nlimit: " . $limit . "\r\noffset: " . $offset . "\r\niscount: " . $iscount . "\r\nselect: " . $select . "\r\n");
         echo json_encode($srch->fetchAll(PDO::FETCH_ASSOC));
     }
 ?>
