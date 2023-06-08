@@ -24,7 +24,7 @@
         if(empty($select))  $select = 'username';
         else                $select = substr($select,0,-1);
       }
-    else if(!in_array($select, $userCols, false))     $select = 'title';
+    else if(!in_array($select, $userCols, false))     $select = 'username';
 
     $srch   = $conn->prepare("select $select from ".$dbinfo['user table']." where $cmpari like :term order by $ordby $dr limit $limit offset $offset;");
     $srch->execute(['term' => ('%'.addcslashes($term, '%_').'%')]);
