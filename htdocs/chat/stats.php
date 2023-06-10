@@ -18,7 +18,7 @@
                         <li><a class="dropdown-item" href="/chat/page3.php">chat</a></li>
                         <div class="dropdown-divider"></div>
                         <li><a class="dropdown-item" href="/chat/chats.php">chat search</a></li>
-                        <li><a class="dropdown-item" href="/chat/usersearch.php">user search</a></li>
+                        <li><a class="dropdown-item" href="/chat/users.php">user search</a></li>
                     </ul>
                 </div>
                 <div class="navbar-header">

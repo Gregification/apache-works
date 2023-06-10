@@ -3,32 +3,44 @@
 
     //all table columns should be lowercase
     $dbinfo = array(
-        'user table' =>  '_users',
-        'image table'   =>  '_images',
-        'chat table'    =>  '_chats',
-        'chat table templet'    =>  '_chattemplet',
-        'username charlimit' => 255,
-        'chat title charlimit' => 255,
-        'chat description charlimit' => 1500,
-        'user columns' => array(
+        'image table'   => 'public._images',
+        'user table'    => 'public._users',
+        'username charlimit'    => 255,
+        'user columns'  => array(
                 'username',
                 'lastactivetime',
                 'creationtime',
                 'description'
             ),
-        'chat columns' => array(
+        'chat table'    => 'public._chats',
+        'chat template' => 'public._chattemplate',
+        'chat title charlimit'  => 255,
+        'chat description charlimit'    => 1500,
+        'chat message charlimit'    => 2000,
+        'chat schema'   => 'chats',
+        'chat meta columns'  => array(
                 'title',
                 'lastactivetime',
                 'creationtime',
                 'description',
-                'usersonline'
-            )
+                'usersonline',
+                'id'
+            ),
+        'chat columns'  => array(
+                'timedelivered',
+                'message',
+                'by'
+            ),
+        'chat id prefix'    => '_'
     );
 
     /* 
-        $_SESSION
-            : username
-            : chatname
+        - no premission restrictions. r/w/x everything ... 
+
+        $_SESSION           jsavaliable
+            : username          
+            : chatname      
+            : chatid            x
     */
 
     try {

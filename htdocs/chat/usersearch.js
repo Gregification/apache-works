@@ -186,8 +186,8 @@ document.addEventListener("DOMContentLoaded", function(){
             _eff_batchSize  = (_urlParams.has('batchsize') ? _urlParams.get('batchsize') : srch_batchSize.value);
         ;
 
-        console.log(window.localStorage.getItem('resultCount'));
-        console.log(_eff_batchSize);
+        // console.log(window.localStorage.getItem('resultCount'));
+        // console.log(_eff_batchSize);
 
         if(_pgnum <= 0) _liPrevious.classList.add('disabled');
         else{

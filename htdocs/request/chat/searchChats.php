@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include_once "/var/private_request/config.php";
 
     $term   = $_GET['searchTerm']   ?? "";//any string
@@ -8,7 +7,7 @@
     $dr     = $_GET['dr']           ?? 'asc';//assume is "asc" or "desc'
     $limit  = $_GET['limit']        ?? 10;//assume is a number or "all"(case insensitive)
     $offset = $_GET['offset']       ?? 0;//assume is a number
-    $iscount    = $_GET['iscount']  ?? 0;// t/f
+    $iscount= $_GET['iscount']      ?? 0;// t/f
     $select = $_GET['select']       ?? 'title';//csv of column names ex: "title,usersonline,description"
 
     //format
@@ -17,7 +16,7 @@
     $dr     = strtolower($dr);
     $term   = '%' . addcslashes($term, '%_'). '%';
 
-    $chatCols = $dbinfo['chat columns'];
+    $chatCols = $dbinfo['chat meta columns'];
 
     //validation w/ defaults
     if(!is_numeric($offset))    $offset = 0;

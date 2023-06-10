@@ -2,7 +2,6 @@
 <h1>
     <?php 
         session_start();
-        
         include_once '/var/private_request/genName.php';
 
         //if [name dne] or [invalid session name] 

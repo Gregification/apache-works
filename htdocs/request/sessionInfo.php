@@ -2,15 +2,22 @@
     session_start();
     include_once "/var/private_request/config.php";
 
-    $attrName   = $_GET['attribute'] ?? 'null';
-
-    //eh, it works good enough as is
+    $attrs = explode(',', $_GET['attribute'] ?? '');
+    $attrs = array_unique($attrs, SORT_STRING);
+    
+    //eh
     $whitelist = array(
-        'username'
+        'username',
+        'chatname',
+        'chatid'
     );
 
-    //validation
-    if(!in_array($attrName, $whitelist, false))     return;
+    $attrs = array_filter($attrs, function($v) use ($whitelist){
+        return in_array($v, $whitelist, false);
+    });
 
-    echo $_SESSION[$attrName];
+    $ret = array();
+    foreach($attrs as $v) $ret[$v] = $_SESSION[$v];
+
+    echo json_encode($ret);
 ?>

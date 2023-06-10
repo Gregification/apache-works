@@ -2,22 +2,55 @@
     session_start();
     include_once "/var/private_request/config.php";
 
-    $term   = isset($_POST['searchTerm']) ?  $_POST['searchTerm'] : "";//any string
-    $ordby  = isset($_POST['orderBy']) ?     strtolower($_POST['orderBy'])    : 'username';//assume is a column name
-    $cmpari = isset($_POST['cmpari']) ?      strtolower($_POST['cmpari'])     : 'username';//assume is a column name
-    $dr     = isset($_POST['dr']) ?          $_POST['dr']         : 'asc';//assume is "acending" or "decending'
-    $limit  = isset($_POST['batchsize']) ?   $_POST['batchsize']  : 10;//assume is a number or "all"(case insensitive)
-    $offset = isset($_POST['pgnum']) ?       $_POST['pgnum']      : 0;//assume is a number
+    $title   = $_POST['title'] ?? 'default chat';
 
     //validation
-    if(!is_numeric($limit) && !strcasecmp($limit, 'all'))   $limit  = 'all';
-    if(!strcasecmp($dr, 'asc') && !strcasecmp($dr, 'desc')) $dr     = 'asc';
-    if(!in_array($ordby, $dbinfo['user columns'], false))   $ordby  = 'username';
-    if(!in_array($cmpari, $dbinfo['user columns'], false))  $cmpari = 'username';
-    if(!is_numeric($offset))    $offset = 0;    else    if(is_numeric($limit)) $offset *= $limit;
+    if(empty($title))   return;
 
-    $srch   = $conn->prepare("select username,creationtime,lastactivetime,description from ".$dbinfo['user table']." where $cmpari like :term order by $ordby $dr limit $limit offset $offset;");
-    $srch->execute(['term' => ('%'.addcslashes($term, '%_').'%')]);
-    // echo print_r("term: " . $term . "\r\nordby: " . $ordby . "\r\ncmpari: " . $cmpari . "\r\ndr: " . $dr . "\r\nlimit: " . $limit . "\r\noffset: " . $offset . "\r\n");
-    echo json_encode($srch->fetchAll(PDO::FETCH_ASSOC));
+    $table_chatmeta = $dbinfo['chat table'];
+    $id             = 1;
+    $tabledbpth     = 'schema.tablename';
+
+    $q  = $conn->prepare("select id from ".$table_chatmeta." where title = ?;");
+    $q->execute([$title]);
+    $id = $q->fetchColumn();
+
+    if(empty($id)){//if table not exist in meta
+        $t = time();
+
+        //create meta
+        $q = $conn->prepare("insert into ".$table_chatmeta." (title,usersonline,creationtime,lastactivetime) values (:title,0,:ct,:lat) returning id;");
+        $q->execute(['title' => $title, 'ct' => $t, 'lat' => $t]);
+
+        $id = $q->fetchColumn();
+    }
+    /* else{
+        $q = $conn->prepare("select exists (select from pg_tables where schemaname=? and tablename=?;");
+        $q->execute([$dbinfo['chat schema'],$dbinfo['chat id prefix'] . $id]);
+        if($q->fetchColumn()){//if table dne by meta exists
+
+        }
+    } */
+
+    //create table from template
+    
+    //create table if not exists
+    $tabledbpth = $dbinfo['chat schema'].'.'.$dbinfo['chat id prefix'].$id;
+    $q = $conn->prepare("create table if not exists " .$tabledbpth. " as table " .$dbinfo['chat template']. ";");
+    $q->execute();
+
+    //decrement old chat user count
+    $q = $conn->prepare("update ".$dbinfo['chat table']." set usersonline=usersonline+? where id=?;");
+    if(isset($_SESSION['chatid'])){
+        $q->execute([-1,$_SESSION['chatid']]);
+    }
+
+    //increment new chat user count
+    $q->execute([1, $id]);
+
+    $_SESSION['chatid']     = $id;
+    $_SESSION['chatdbpath'] = $tabledbpth;
+    $_SESSION['chatname']   = $title;
+
+    echo "joined chat:\r\t".$tabledbpth."\r\ntitle:\r\t".$title;
 ?>
