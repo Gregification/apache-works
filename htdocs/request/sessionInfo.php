@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    if(session_status() == PHP_SESSION_NONE) session_start();
     include_once "/var/private_request/config.php";
 
     $attrs = explode(',', $_GET['attribute'] ?? '');
@@ -8,8 +8,7 @@
     //eh
     $whitelist = array(
         'username',
-        'chatname',
-        'chatid'
+        'chatname'
     );
 
     $attrs = array_filter($attrs, function($v) use ($whitelist){

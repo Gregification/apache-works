@@ -1,4 +1,6 @@
 <?php 
+    if(session_status() == PHP_SESSION_NONE) session_start();
+
     $conn;//pdo conneciton
 
     //all table columns should be lowercase
@@ -41,6 +43,7 @@
             : username          
             : chatname      
             : chatid            x
+            : chatdbpath        x
     */
 
     try {
@@ -53,7 +56,23 @@
         $password = "password";
         
         $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname;", $user, $password);
+        $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, 1);
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
     }
+
+    ////////////////////////////////////////////////////////////////////
+    //funcitons
+    ////////////////////////////////////////////////////////////////////
+    $getTableName = function (int $id) use ($dbinfo) : string {
+            return $dbinfo['chat id prefix'] . $id;
+        };
+    $getTablePath = function ($id) use ($dbinfo, $conn, $getTableName) {
+            if(!is_int($id)){
+                $q  = $conn->prepare("select id from {$dbinfo['chat table']} where title=?");
+                $q->execute([$id]);
+                $id = $q->fetchColumn();
+            }
+            return empty($id) ? null : $dbinfo['chat schema'] . '.' . $getTableName(intval($id));
+        };
 ?>

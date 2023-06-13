@@ -1,5 +1,4 @@
 <?php
-    session_start();
     include_once "/var/private_request/config.php";
 
     $term   = $_GET['searchTerm']   ?? "";//any string

@@ -36,6 +36,6 @@ WINDOWS
 - to quit run ```.\run_phpApache.ps1 -stop``` or stop the containers manualy
 
 ---
-## noteable
-- there is no api. its just a bunch of POST calls back and forth. planning to switch over to one eventually
+<!-- ## noteable
+- there is no api. its just a bunch of POST calls back and forth. planning to switch over to one eventually -->
 <p align="right"><img src="https://raw.githubusercontent.com/Gregification/htmlfiddle/main/htdocs/favicon.ico"></p>

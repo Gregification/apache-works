@@ -3,7 +3,8 @@
 <?php
     ob_start();
     include_once '/var/www/html/request/chat/login.php';
-    include_once '/var/www/html/request/chat/joinchat.php';
+    if(!isset($_SESSION['chatname']))
+        include '/var/www/html/request/chat/joinchat.php';
     ob_end_clean();
 ?>
 
@@ -13,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-        <script type='module' src="/chat/page3.js"></script>
+        <script type='module' src="/chat/page3.js" defer></script>
         <title>chat</title>
     </head>
     
@@ -43,21 +44,19 @@
             <h2 style="text-align: center;"><?php echo $_SESSION['chat'] ?? 'no chat' ?></h2>
         </header> -->
 
-        <!-- message creator -->
+        <!-- message box -->
         <div class="fixed-bottom" style="width: 100%; max-height: 40%;">
-            <div class="contianer">
-                <div class="border border-4 p-1">
-                    <form>
+            <div class="contianer border border-4 p-1">
+                    <form id="form-messagebox">
                         <div class="row" style="margin-bottom: 2px;">
                             <div class="col">
                                 <button class="btn btn-primary">send</button>
                             </div>
                         </div>
                         <div class="row">
-                            <textarea class="form-control" placeholder="message ..." style="min-height: 1.5rem; max-height: 200px;"oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                            <textarea name="message" class="form-control" placeholder="message ..." style="min-height: 1.5rem; max-height: 200px;"oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
                         </div>
                     </form>
-                </div>
             </div>
         </div>
         
@@ -90,7 +89,7 @@
                             <label for="btn_join">Chat title</label>
                             <div class="input-group mb-3 newname">
                                 <button class="btn btn-outline-secondary rounded-0" type="submit" id="btn_join">join</button>
-                                <input required name="title" type="text" class="form-control" placeholder="default chat" maxlength="255">
+                                <input required name="title" type="text" class="form-control" placeholder="chat name" maxlength="255">
                             </div>
                         </form>
                         <!-- <form id="form-modal-description">
