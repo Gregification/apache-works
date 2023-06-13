@@ -8,7 +8,8 @@
     //eh
     $whitelist = array(
         'username',
-        'chatname'
+        'chatname',
+        'chatid'
     );
 
     $attrs = array_filter($attrs, function($v) use ($whitelist){

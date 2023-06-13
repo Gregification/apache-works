@@ -47,30 +47,31 @@
         <!-- message box -->
         <div class="fixed-bottom" style="width: 100%; max-height: 40%;">
             <div class="contianer border border-4 p-1">
-                    <form id="form-messagebox">
-                        <div class="row" style="margin-bottom: 2px;">
-                            <div class="col">
-                                <button class="btn btn-primary">send</button>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <textarea name="message" class="form-control" placeholder="message ..." style="min-height: 1.5rem; max-height: 200px;"oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
-                        </div>
-                    </form>
+                <form id="form-messagebox" class="row">
+                    <!-- <div class="input-group" style="margin-bottom: 2px;">
+                    </div> -->
+                    <div class="row">
+                        <button class="btn btn-primary">send</button>
+                        <textarea name="message" class="form-control" placeholder="message ..." style="min-height: 1.5rem; max-height: 200px;"oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'></textarea>
+                    </div>
+                </form>
+                <div class="row" style="display: inline;">
+                    <button class="btn btn-outline-secondary" id="reloadmsg">reload</button>
+                </div>
             </div>
         </div>
         
         <!-- message display -->
-        <div style="overflow-y: auto; height: 700px; background-color: #0f6c79">
+        <div style="overflow-y: auto; height: 680px; background-color: #0f6c79" id="msgDisplay">
             <template>
                 <div class="card text-left" style="flex-direction: row; margin: 5px;">
                     <div style="max-width: 20%; min-width: 5%; max-height: 90%;">
                         <img class="card-img-left rounded-0" src="/icon/default/icon.png" style="width: 50px; height: 50px;" alt="Card image cap">
                     </div>
                     <div class="card-body">
-                        username
-                        <small class="card-text text-muted">time of posting</small>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <p class="user" style="display: inline">username</p>
+                        <small class="time card-text text-muted">time of posting</small>
+                        <p class="msg card-text">Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
                 </div>
             </template>
@@ -101,7 +102,7 @@
                         </form> -->
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-outline-secondary" id="rndName_btn">random name</button>
+                        <button class="btn btn-outline-secondary" id="reloadAllMSG">reload all messages</button>
                     </div>
                 </div>
             </div>
