@@ -20,7 +20,7 @@ ocassionaly avaliable at [47.37.113.251:8080](http://47.37.113.251:8080) . other
 WINDOWS
 1. install Docker & clone this repo. turn on the docker daemon.
 1. create a ```postgres:15``` container (ex: name->_testdb_ , port->_5432_)
-1. inside the new db, create a few tables with
+1. inside the new db, create a few tables with. or see. *ALTERNATIVE-- listed bellow steps* 
     ```
     create table if not exists _chattemplet (timeDelivered_u BIGINT PRIMARY KEY,  id serial,  sentBy VARCHAR(255),    message VARCHAR(940) NOT NULL);
     create table if not exists _users       (username VARCHAR(255)  PRIMARY KEY,    creationtime BIGINT not null,    lastactivetime BIGINT not null);
@@ -34,7 +34,7 @@ WINDOWS
 
 
 - to quit run ```.\run_phpApache.ps1 -stop``` or stop the containers manualy
-
+- ALTERNATIVE pgsql setup: the ```pgsql_dirty.tar``` file ([stored in a google drive since too large(.7gb) for casual upload](https://drive.google.com/drive/folders/1m2hxDKJHhBzIbTAJeKPh1kAFdB16_mnZ?usp=sharing)) is a .tar of a working postgresql db container saved as a iamge, then a container. use docker to create a image then container with it and make sure the name matches whats in the ```[string]$dbContainer = 'aphpsql'``` paramater in the powershell launch script aka. [run_phpApache.ps1 : around line#20](https://github.com/Gregification/htmlfiddle/blob/main/run_phpApache.ps1)
 ---
 <!-- ## noteable
 - there is no api. its just a bunch of POST calls back and forth. planning to switch over to one eventually -->
