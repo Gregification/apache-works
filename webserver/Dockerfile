@@ -30,9 +30,12 @@ COPY ./private_request ./private_request
 
 WORKDIR /var/www/
 COPY ./htdocs ./html
+
+### all squeezed into ./htdocs for simplicity
 #COPY ./request ./request
 #ADD ./images ./images
 #ADD ./icons ./icons
+###
 
 RUN service apache2 restart
 

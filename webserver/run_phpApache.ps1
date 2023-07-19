@@ -29,7 +29,6 @@ if($help) {
         [switches]
             -help       : show help txt
             -visit      : open the browser page if launch sucessful
-            -visitOnly  : just open the browser page, nothing more
             -showCommand: print docker command used
             -removeImage: deletes the image. will force to get a new one from docker. lazy way to update it
             -useInconvationPath : use the directory the command was called from
@@ -38,7 +37,7 @@ if($help) {
             -dbContainer: name of existing db container
             -dbPort     : port to the db
         [text]
-            -runFlags   : docker flags. --name=... and -p=... are already included => edit this file to change
+            -runFlags   : docker flags. --name=... and -p=... are already included. to change, edit this powershell script
             -container  : the container name
             -image      : the image name
         
