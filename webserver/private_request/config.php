@@ -16,11 +16,11 @@
             ),
         'chat table'    => 'public._chats',
         'chat template' => 'public._chattemplate',
-        'chat title charlimit'  => 255,
+        'chat title charlimit'          => 255,
         'chat description charlimit'    => 1500,
-        'chat message charlimit'    => 2000,
-        'chat schema'   => 'chats',
-        'chat meta columns'  => array(
+        'chat message charlimit'        => 2000,
+        'chat schema'       => 'chats',
+        'chat meta columns' => array(
                 'title',
                 'lastactivetime',
                 'creationtime',
@@ -28,7 +28,7 @@
                 'usersonline',
                 'id'
             ),
-        'chat columns'  => array(
+        'chat columns'      => array(
                 'timedelivered',
                 'message',
                 'by'
@@ -64,9 +64,13 @@
     ////////////////////////////////////////////////////////////////////
     //funcitons
     ////////////////////////////////////////////////////////////////////
+
+    //standard way to get a tables name
     $getTableName = function (int $id) use ($dbinfo) : string {
             return $dbinfo['chat id prefix'] . $id;
         };
+    
+    //standard way to get a full pgsql path for a table. preffered over config.php/.getTableName()
     $getTablePath = function ($id) use ($dbinfo, $conn, $getTableName) {
             if(!is_int($id)){
                 $q  = $conn->prepare("select id from {$dbinfo['chat table']} where title=?");

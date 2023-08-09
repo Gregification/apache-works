@@ -21,7 +21,8 @@ param (
     [string]$dbPort = '5432',
     [string]$dbConnecitonInfo = "./private_request/psqlConnectionInfo.json"
 )
-$srcImage = "php:7.2-apache";
+$srcImage       = "php:7.2-apache";
+$urllocation    = "http://localhost:8080";
 
 if($help) { 
     write-host 
@@ -56,7 +57,7 @@ if($help) {
             -containers wil remain o nnetwork even when disabled, docker will give duplicate end point error(ignore it if so)";
     return;
 }
-if($visitOnly)  {   Start-Process "http://localhost:8080";  return; }
+if($visitOnly)  {   Start-Process $urllocation;  return; }
 
 
 #########################################
@@ -91,7 +92,8 @@ $linkVolumes=
     #("/sbin/","/var/sbin/"),
     #("/cig-bin/","/var/cig-bin/")
 ;
-$interactiveExpression = "start powershell {echo '$container';docker exec -it $container /bin/bash}; start powershell {echo '$dbContainer'; docker exec -it $dbContainer /bin/bash}";
+$interactiveExpression_pgsql   = "start powershell {echo '$dbContainer'; docker exec -it $dbContainer /bin/bash}";
+$interactiveExpression_apache    = "start powershell {echo '$container';docker exec -it $container /bin/bash};"
 <#
 $linkMounts=@(
     #("/other_configs/httpd.conf","/etc/apache2/httpd.conf")
@@ -124,16 +126,19 @@ if($old -ne $null){
         docker rm $old;
         Invoke-Expression $command;
     }else{ 
-        if($interactive){   Invoke-Expression $interactiveExpression;   }
+        if($visitOnly)  {   Start-Process $urllocation; }
+        if($interactive){   Invoke-Expression "$interactiveExpression_apache $interactiveExpression_pgsql";   }
         return; 
     }
 }else{Invoke-Expression $command;}
 
+#check if conainer actually went up
+sleep -Milliseconds 200;
 $old = docker ps --filter "name=$container" -q
 if($old -ne $null){ 
-    write-host "APACHE:$container" -BackgroundColor Green 
-    if($interactive){   Invoke-Expression $interactiveExpression; }
-    if($visit)      {   sleep -Milliseconds 200;   Start-Process "http://localhost:8080";  }
+    write-host "APACHE:$container" -ForegroundColor Green 
+    if($interactive){   Invoke-Expression $interactiveExpression_apache; }
+    if($visit)      {   Start-Process $urllocation;  }  
 }else{ 
     write-host "FAILED TO START APACHE:$container" -BackgroundColor Red -NoNewline;
     return;
@@ -150,7 +155,11 @@ $old = docker ps --filter "name=$dbContainer" -q;
 if($old -eq $null){
     $old = docker ps --filter "name=$dbContainer" -aq;
     if($old -eq $null){ write-host "FAILED TO FIND DB CONTAINER." -BackgroundColor Red; return; }
-    else {  docker start $dbContainer;  }
+    else {  
+        docker start $dbContainer;  
+        sleep -Milliseconds 200;
+        if($interactive){   Invoke-Expression $interactiveExpression_apache; }
+    }
 }
 
 
@@ -168,9 +177,11 @@ if($old -eq $null){
     }else { return; }
 }
 
+write-host "joining contaners to network ..." -ForegroundColor gray;
 docker network connect $netName $dbContainer;
 docker network connect $netName $container;
 
+write-host "writing pgslq connection info to $dbConnecitonInfo ..." -ForegroundColor gray;
 $dbiPv4 = (docker exec $dbContainer hostname -I).trim() -Split ' ',-1;
 @{
     'iPv4'  =   $dbiPv4[-1]

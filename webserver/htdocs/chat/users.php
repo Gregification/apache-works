@@ -26,7 +26,7 @@
                         <li><a class="dropdown-item" href="/chat/chats.php">chat search</a></li>
                         <li><a class="dropdown-item" href="/chat/stats.php">stats</a></li>
                         <div class="dropdown-divider"></div>
-                        <li><button class="dropdown-item btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-user">user</button></li>
+                        <li><button class="dropdown-item btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modal-currentUser">user</button></li>
                     </ul>
                 </div>
                 <div class="navbar-header">
@@ -98,7 +98,7 @@
                 <div class="card-group p-1" id="usercards">
                     <template>
                         <div class="card mx-auto" style="min-width: 200px; max-width: fll-content; min-height: 150px ;max-height: fit-content;">
-                            <img class="card-img-top rounded-0" src="/icon/default/icon.png">
+                            <img class="card-img-top rounded-0" src="/icon/default/icon.png" onclick="" type="button" data-bs-toggle="modal" data-bs-target="#modal-currentUser">
                             <div class="card-body">
                                 <h5 class="card-title">Card title</h5>
                                 <p class="card-text">description</p>
@@ -121,8 +121,8 @@
             </div>
         </div>
 
-        <!-- modal user -->
-        <div class="modal fade" id="modal-user" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
+        <!-- modal current user -->
+        <div class="modal fade" id="modal-currentUser" tabindex="-1" aria-labelledby="modal-user-label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -144,12 +144,26 @@
                             <lable for="usr_description">Description</lable>
                             <button class="btn btn-outline-secondary rounded-0 border-opacity-0" type="submit" name="btn_description" id="btn_description">update</button> 
                             <div>
-                                <textarea required type="text" name="description" id="usr_description" placeholder="something something"  maxlength="500" style="width: 100%; min-height: 5rem;"></textarea>
+                                <textarea type="text" name="description" id="usr_description" placeholder="something something"  maxlength="500" style="width: 100%; min-height: 5rem;"></textarea>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer" aria-labelledby="modal-user-label" aria-hidden="true">
                         <button class="btn btn-outline-secondary" id="rndName_btn">random name</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal selected user info -->
+        <div class="modal fade">
+            <div class="modal-dialog" id="modal-selectedUser">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
                     </div>
                 </div>
             </div>

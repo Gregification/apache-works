@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function(){
         decpt_txt       = document.getElementById("usr_description"),
         decpt_btn       = document.getElementById("btn_description"),
         usercard_container  = document.getElementById("usercards"),
-        usercard_template   = usercard_container.querySelector("template").content.querySelector(".card") //.cloneNode(true) //document.querySelector("#card-template > div.card").cloneNode(true)
+        usercard_template   = usercard_container.querySelector("template").content.querySelector(".card"), //.cloneNode(true) //document.querySelector("#card-template > div.card").cloneNode(true)
+        modal_selectedUser  = document.getElementById("modal-selectedUser")
         ;
         // urlParams       = new URLSearchParams(window.location.search);
         // urlParams.set('pgnum', 9);
@@ -41,30 +42,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
     function userModal_updateDescription(usrName){
         usrName = String(usrName).trim();
-        // _username   = '';
-        //get username
-        /* let _urn_xhr    = new XMLHttpRequest(),
-            _urlParams = new URLSearchParams()
-            ;
-
-        _urlParams.set('attribute', 'username');
-
-        _urn_xhr.open("GET", '/request/sessionInfo.php' + '?' + _urlParams.toString(), false);
-        _urn_xhr.onload = ()=>{
-            if(_urn_xhr.readyState === XMLHttpRequest.DONE && _urn_xhr.status === 200){
-                havename = false;
-                for(const v of JSON.parse(srch_xhr.response).values()){
-                    console.log('usrname: ' + v['username'] + '\n');
-                    if(usrName.localeCompare(v['username']) == 0){
-                        decpt_txt.value = v['description'];
-                        havename=true;
-                        break;
-                    }
-                }
-                if(!havename) _username = String(nameDisplay.innerText);
-            }
-        };
-        _urn_xhr.send(null); */
 
         //get & set description by username
         let _descp_xhr = new XMLHttpRequest();
@@ -80,9 +57,7 @@ document.addEventListener("DOMContentLoaded", function(){
         _descp_xhr.open("GET", '/request/chat/searchUsers.php' + '?' + _urlParams.toString(), true);
         _descp_xhr.onload = ()=>{
             if(_descp_xhr.readyState === XMLHttpRequest.DONE && _descp_xhr.status === 200){
-                // console.log('update description request returned!: ' + usrName + '\n' + _descp_xhr.response + '\n');
                 for(const v of JSON.parse(_descp_xhr.response).values()){
-                    // console.log('usrname: ' + v['username'] + '\n');
                     if(usrName.localeCompare(v['username']) == 0){
                         decpt_txt.value = v['description'];
                         break;
@@ -327,5 +302,15 @@ document.addEventListener("DOMContentLoaded", function(){
         formdata.append('usepreexisting', 0);
         rngN_xhr.send(formdata);
     });
+
+    //////////////////////////////////////////////////
+    // full info on user
+    //////////////////////////////////////////////////
+
+    //populates the modal-selecteduser with the data from the given card element
+    function setExpandedUserInfo(element){
+        let content = modal_selectedUser.parentElement().querySelectorAll("*");
+        
+    }
 
 });
