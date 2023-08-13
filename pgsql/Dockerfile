@@ -13,8 +13,10 @@ ENV POSTGRES_INITDB_ARGS "--locale-provider=icu --icu-locale=en-US"
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 #set templates
-WORKDIR /temp
-COPY ./dbtemplate_chatdb.pgsql .
+WORKDIR /setup
+ADD ./templates ./
+COPY ./templateBuilder.sh .
+COPY ./kittycatdancedancednace.txt .
 
 EXPOSE 5432
 
