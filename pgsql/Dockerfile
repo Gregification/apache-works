@@ -14,9 +14,10 @@ RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 #set templates
 WORKDIR /setup
-ADD ./templates ./
-COPY ./templateBuilder.sh .
-COPY ./kittycatdancedancednace.txt .
+ADD templates ./templates/
+COPY templateBuilder.sh .
+COPY kittycatdancedancednace.txt .
+COPY DBtemplateToDBmap.txt .
 
 EXPOSE 5432
 

@@ -12,6 +12,7 @@ param (
     [switch]$showCommandOnly    = $false,
     [switch]$useIncovationPath  = $false,
     [switch]$interactive    = $false,
+    [switch]$skipDBSetup    = $false,
     [switch]$rebuild        = $false,
     [switch]$rebuilddb      = $false,
     [switch]$extractDB      = $false,
@@ -108,11 +109,14 @@ function rebuild-image($dockerfilePath, [string]$tag) {
     docker build $dockerfilePath -t $tag;
 }
 function remove-container([string]$containerName) {
-    write-host "removing container $containerName ... " -ForegroundColor gray -NoNewLine;
-    $_contID = docker ps --filter "name=$containerName" -q
-    
-    if($_contID -ne $null){
-        docker container stop $_contID;
+    if(docker ps --filter "name=$containerName" -aq){
+        if(docker ps --filter "name=$containerName" -q) { 
+            write-host "stopping container $containerName ... " -ForegroundColor gray -NoNewLine;
+            docker container stop $containerName; 
+        }
+
+        write-host "removing container $containerName ... " -ForegroundColor gray -NoNewLine;
+        docker container rm $containerName;
     }else{
         write-host "no container found" -ForegroundColor gray;
     }
@@ -125,6 +129,7 @@ function start-pgsqlContainer{
             write-host "`n`tfailed to find db image. " -ForegroundColor yellow -NoNewLine;
             if((Read-Host -Prompt "rebuild db image? (y/n)") -eq 'y'){
                 rebuild-image -dockerfilePath $dbDockerfile -tag $dbImage;
+                waitForImageToAppear -imageName $dbImage;
             }else{ return; }
         }
 
@@ -133,10 +138,10 @@ function start-pgsqlContainer{
         # for some raeson the run command fails if this isnt in a Invoke-Expression
         Invoke-Expression "docker run --name $dbContainer -p $($dbPort):5432 -e POSTGRES_PASSWORD=$dbPassword -d $dbImage;";
 
-        waitForImageToAppear -imageName $dbImage;
+        waitForContainerToStart -containerName $dbContainer;
 
         # build the templates
-        docker exec $dbContainer bash -c "/setup/templateBuilder.sh";
+        if(!$skipDBSetup) { docker exec $dbContainer bash -c "sh /setup/templateBuilder.sh"; }
     }else{
         docker start $dbContainer;
     }
@@ -165,14 +170,22 @@ function extract-psqlContent([hashtable]$outPaths = $extractDBTo, [string]$conta
     $tempFolder = "/extract_temp";
     docker exec $containerTag mkdir $tempFolder;
 
-    $outPaths.GetEnumerator() | ForEach-Object {
+    $outPaths.GetEnumerator() | % {
+        #sometimes the loop goes over blank spaces
+        if(!($_.name) -or !($_.value)) { continue; }
+
         # make template
         $dbname         = $_.name;
-        $fullContPth    = "$tempFolder/$dbname.tar";
+        $ContTmpltName  = "$dbname.tar";
+        $fullContPth    = "$tempFolder/$ContTmpltName";
         $fullHostPth    = "$($_.value).tar";
 
         write-host "`t$($containerTag):$fullContPth" -NoNewLine;
-        docker exec $containerTag bash -c "pg_dump -U postgres $dbname > $fullContPth";
+        <#-F flags output format.
+            t -> .tar format, non-plain text. smaller   : requires pg_restore command to restore from
+            [no flag] -> plain text.                    : requires psql command to restore from
+        #>
+        docker exec $containerTag bash -c "pg_dump -U postgres -F t $dbname > $fullContPth";
 
         write-host "`t==>`tlocalhost:$fullHostPth";
         docker cp $containerTag':'$fullContPth $fullHostPth;
@@ -180,10 +193,10 @@ function extract-psqlContent([hashtable]$outPaths = $extractDBTo, [string]$conta
         docker exec $containerTag rm $fullContPth;
 
         # update map
-        $map += "$dbname,$fullContPth`n";
+        $map += "$dbname,/setup/templates/ContTmpltName`n";
     }
     docker exec -d $containerTag rmdir $tempFolder;
-    $map -replace ".$" #trim trailling char
+    $map.trim(",") #trim trailling char
 
     if($_stp){ docker stop $containerTag; }
     
@@ -234,7 +247,9 @@ if($visitOnly)  {   Start-Process $urllocation;  quit; }
 if($removeSrcImage){ docker image rm $srcImage; }
 if($extractDB -or $extractDBOnly){
     $maptxt = (extract-psqlContent -outPaths $extractDBTo -containerTag $dbContainer);
-    $maptxt | Set-content $extractDBmapTo;
+    
+    if((Read-Host -Prompt "`nrewrite map? ps: the map is terrriable for some reson so clean it needs cleaned manualy (y/n)") -eq 'y'){ $maptxt | Set-content $extractDBmapTo; }
+
     if($extractDBOnly) { quit; }
 }
 if($rebuild){ 
@@ -243,7 +258,7 @@ if($rebuild){
 }
 if($rebuilddb){
     if((docker ps --filter "name=$dbContainer" -aq)){
-        if(!$extractDB -and (Read-Host -Prompt "rebuild db image without first extracting container data? (y/n)") -ne 'y'){ quit; }
+        if(!$extractDB -and (Read-Host -Prompt "a extract flag was not given. lose current db contents & continue with rebuild ? (y/n)") -ne 'y'){ quit; }
         remove-container -containerName $dbContainer;
     }   
 
@@ -311,9 +326,13 @@ if(!(docker network ls --filter "name=$netName" -q)){
 }
 
 write-host "joining db & ws to network ..." -ForegroundColor gray;
-$namedThings = docker network inspect fiddlenet | ?{$_ -match "Name"} | %{echo ($_.substring([Regex]::Match($_, '".*?"').groups[0].index + 9)).trim('",')}
-if(-not $namedThings -contains $dbContainer){ docker network connect $netName $dbContainer; }
-if(-not $namedThings -contains $conainer)   { docker network connect $netName $container; }
+docker network connect $netName $dbContainer;
+docker network connect $netName $container;
+# fails to properly set connections
+# $namedThings = docker network inspect fiddlenet | ?{$_ -match "Name"} | %{echo ($_.substring([Regex]::Match($_, '".*?"').groups[0].index + 9)).trim('",')}
+# if(-not $namedThings -contains $dbContainer){ docker network connect $netName $dbContainer; }
+# if(-not $namedThings -contains $conainer)   { docker network connect $netName $container; }
+
 
 write-host "writing pgslq connection info to $dbConnecitonInfo ..." -ForegroundColor gray;
 $dbiPv4 = (docker exec $dbContainer hostname -I).trim() -Split ' ',-1;

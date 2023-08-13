@@ -5,7 +5,7 @@
         ) as $v){
         echo $v . ': ' . $_SERVER[$v] . "<br>";
     }
-    //echo '&emsp;name by address: ' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . "<br>";
+    // echo '&emsp;name by address: ' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . "<br>";
 
     $connectionInfo = json_decode(file_get_contents('/var/private_request/psqlConnectionInfo.json'), true);
 

@@ -1,1 +1,1 @@
-chatdb,DBtemplate_chatdb_all.tar
+chatdb,/setup/templates/dbtemplate_chatdb_all.tar
