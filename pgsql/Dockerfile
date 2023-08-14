@@ -34,4 +34,4 @@ EXPOSE 5432
 #     RUN rm -rf ./*; \
 #     RUN echo 'template: $i' >> /dbtempbuildlog.txt; \
 #     done;
-# WORKDIR /;
+WORKDIR /
