@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <lable for="cmpari">Compair against</lable>
+                        <lable for="cmpari">Search</lable>
                         <div class="input-group col">
                             <select class="form-select" name="cmpari" id="cmpari">
                                 <option selected value="username">Username</option>

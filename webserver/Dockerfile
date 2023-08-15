@@ -5,7 +5,6 @@ FROM php:8.0-apache
 # php           #######################
 RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork \
-    #php8 \ #???: dont quite know where the actual php version is comming from. i rememeber this fixing it when i added this line but it still works without it now(?idk)
     ssl
 RUN apt-get update
 RUN apt-get install -y libpq-dev \
@@ -18,8 +17,8 @@ RUN docker-php-ext-install \
 # apache config #######################
 COPY ./other_configs/apache2.conf /etc/apache2/apache2.conf
 
-#do not change doc root to /var/www/
-#COPY ./other_configs/000-default.conf /etc/apache2/sites-available/000-default.conf
+# apache sites-enabled/vitural-host config
+COPY ./other_configs/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # php config    #######################
 COPY ./other_configs/php/php.ini /usr/local/etc/php/php.ini
