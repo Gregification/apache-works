@@ -235,8 +235,14 @@ if($help) {
         image:      $image
         srcImage:   $srcImage
         netName:    $netName
+        runFlags:   $runFlags
+        container:  $container
+        image:      $image
         dbContainer:    $dbContainer
+        dbImage:    $dbImage
         dbPort:     $dbPort
+        dbConnecitonInfo:   $dbConnecitonInfo
+        extractDBmapTo: $extractDBmapTo
         
         [note]
             -docker daemon is not controlled by this script. it will not turn it on or off but will require it to be on for this script ot work
@@ -291,9 +297,6 @@ $command += $image;
 
 if($showCommand -or $showCommandOnly){
     echo "
-        runFlags:   $runFlags
-        container:  $container
-        image:      $image
         command:
             $command `n";
     if($showCommandOnly) { quit; }

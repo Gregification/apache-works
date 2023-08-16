@@ -5,7 +5,8 @@ FROM php:8.0-apache
 # php           #######################
 RUN a2dismod mpm_event
 RUN a2enmod mpm_prefork \
-    ssl
+    ssl \
+    rewrite
 RUN apt-get update
 RUN apt-get install -y libpq-dev \
     postgresql-client
