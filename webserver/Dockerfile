@@ -23,8 +23,6 @@ COPY ./other_configs/000-default.conf /etc/apache2/sites-available/000-default.c
 # php config    #######################
 COPY ./other_configs/php/php.ini /usr/local/etc/php/php.ini
 
-RUN service apache2 restart
-
 # src           #######################
 WORKDIR /var/
 COPY ./private_request ./private_request
