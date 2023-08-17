@@ -1,4 +1,4 @@
 {
-    "iPv4":  "aphpsql",
+    "iPv4":  "psql",
     "port":  "5432"
 }

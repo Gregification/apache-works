@@ -15,27 +15,6 @@ COPY templateBuilder.sh .
 COPY kittycatdancedancednace.txt .
 COPY DBtemplateToDBmap.txt .
 
-#setup db
-RUN apt update
-RUN apt install -y openssh-server=1:8.4p1-5+deb11u1
-RUN apt clean
-
-RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-RUN echo "root:password" | chpasswd
-
 EXPOSE 5432
 
-# RUN echo 'create database chatdb' | psql -U postgres
-# RUN psql -U postgres chatdb < ./dbtemplate_chatdb.pgsql
-
-
-# set optional templates, file name (excluding extension) must match db name
-# WORKDIR /temp/
-# ARG dbtemplates 
-# RUN for i in $dbtemplates; do \
-#     COPY ./templates/$i.pgsql ./$i.pgsql; \
-#     RUN psql -U postgres $i < $i.pgsql; \
-#     RUN rm -rf ./*; \
-#     RUN echo 'template: $i' >> /dbtempbuildlog.txt; \
-#     done;
 WORKDIR /

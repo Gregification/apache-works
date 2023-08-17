@@ -117,5 +117,8 @@ table ```Message```
 ```
 
 ---
+```\\wsl$\docker-desktop-data\data\docker\containers\<containerid>```
+---
 ## issues
 - request/navbarPages.json chunky as associatative arrays. not necesassry either
+- manually having to call ```sh /setup/templateBuilder.sh``` after rebuilding db container. calling it from docker-compose -> "command:","entrypoint:" and docker file -> "CMD"/"ENTRYPOINT" result in the same problem (henceforth refrenced as "CMD"), container crash. the psql db WILL NOT naturally start untill docker's "CMD" command has finished but that means the container has finished its task and will auto-delete itself. i have tried manually setting up the database through "CMD" but thats a mssive undertaking(wayy too much work to set up all the certificates,encription,ect) that effects all other containers that may connect to the db. i have tried to use the unix "at" and "crontab" commands to schedule the script to run in the future, after the container is up, but will still crash after they are declared. i have tried booting the webserver after the db container is up, then ssh-ing into it to remote execute the .sh file but the openssh-server does not start automatically and must be done though "CMD", resulting in the same problem as my first attempt. i give up

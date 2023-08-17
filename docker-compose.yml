@@ -4,15 +4,13 @@ services:
     build: ./pgsql
     ports:
       - 5432:5432
-    command: bash -c "sleep 20; service ssh start;"
+    #start psql and run templateBuilder.sh (crashes webserver tho)
+    # command: ["/bin/bash","-c","su -l postgres -c '/usr/lib/postgresql/15/bin/initdb -D /var/lib/postgresql/data'; su -l postgres -c '/usr/lib/postgresql/15/bin/pg_ctl -D /var/lib/postgresql/data -l logfile start'; sh /setup/templateBuilder.sh && tail -F /dev/null"]    
+  
   apache:
-    depends_on:
-      - psql
     build: ./webserver
     ports:
       - 8080:80
-      - 12345:22
     volumes:
       - ./webserver/htdocs:/var/www/html
       - ./webserver/private_request:/var/private_request
-    # command: bash -c "sleep 4; sshpass -p password ssh root@psql -o StrictHostKeyChecking=accept-new '/setup/templateBuilder.sh'; apt-get remove -y sshpass; apt remove -y openssh-client"

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# remove all scheduled scripts
-# crontab -r;
-
 _PGUser=postgres
 dbMapFile=/setup/DBtemplateToDBmap.txt
 
@@ -26,7 +23,4 @@ while IFS=, read -r dbname tmpltpth; do
 echo "done writing templates";
 echo "template builder was ran." > /message.t
 
-service ssh stop
-apt remove -y openssh-server
-
-# rm -rf /setup;
+rm -rf /setup;
