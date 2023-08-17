@@ -17,9 +17,9 @@ ocassionaly avaliable at [47.37.113.251:8080](http://47.37.113.251:8080) . other
 # To host it yourself 
 > *note : the powershell scriptes are only to help automate docker commands. they are not necessary* <br>
 
-### THROUGH DOCKER-COMPOSE
+### USING DOCKER-COMPOSE
  1. build & run the project with ```docker compose up -d --build```
- 1. (do this step only when rebuilding the project) ssh into the psql DB container and run ```sh /setup/templateBuilder.sh``` (this cannot be easily automated with docker. i have tried :(  )
+ 1. (do this step only when rebuilding the project) ssh into the psql DB container and run ```sh /setup/templateBuilder.sh``` (this cannot be easily automated with docker. i have tried \):  )
  1. visit <a href="http://localhost:8080">localhost:8080</a>
 
 ### USING POWERSHELL (not recommended)
