@@ -8,7 +8,6 @@ PGPASSWORD=$(< $_passwordsrc)
 
 echo -n "waiting for postgresql to start ... ";
 while ! pg_isready -q -U $_PGUser; do 
-    echo 'psql is not ready'
     sleep 1;
   done
 
