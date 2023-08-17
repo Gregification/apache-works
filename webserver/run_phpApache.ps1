@@ -105,7 +105,7 @@ function waitForImageToAppear([string]$imageName){
 }
 function rebuild-image($dockerfilePath, [string]$tag) {
     write-host "rebuilding image tag:$tag @ $dockerfilePath..." -ForegroundColor gray;
-    docker image rm $tag; 
+    # docker image rm $tag; 
     docker build $dockerfilePath -t $tag;
 }
 function remove-container([string]$containerName) {
@@ -142,9 +142,6 @@ function start-pgsqlContainer{
 
         # build the templates
         if(!$skipDBSetup) { docker exec $dbContainer bash -c "sh /setup/templateBuilder.sh"; }
-
-        #clean setup
-        docker exec $dbContainer bash -c "rm -rf /setup";
     }else{
         docker start $dbContainer;
     }

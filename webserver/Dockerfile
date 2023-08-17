@@ -2,19 +2,6 @@
 #php versions are mismatched. cant find a list of image versions so it stays as such
 FROM php:8.0-apache
 
-# php           #######################
-RUN a2dismod mpm_event
-RUN a2enmod mpm_prefork \
-    ssl \
-    rewrite
-RUN apt-get update
-RUN apt-get install -y libpq-dev \
-    postgresql-client
-RUN docker-php-ext-install \
-    pdo \
-    pdo_pgsql \
-    pgsql 
-
 # apache config #######################
 COPY ./other_configs/apache2.conf /etc/apache2/apache2.conf
 
@@ -37,7 +24,26 @@ COPY ./htdocs ./html
 #ADD ./icons ./icons
 ###
 
+# php           #######################
+RUN a2dismod mpm_event
+RUN a2enmod mpm_prefork \
+    ssl \
+    rewrite
+RUN apt-get update
+RUN apt-get install -y libpq-dev \
+    postgresql-client \
+    sshpass
+RUN docker-php-ext-install \
+    pdo \
+    pdo_pgsql \
+    pgsql 
+RUN apt-get clean
+
 RUN service apache2 restart
+
+RUN apt update
+RUN apt install -y openssh-client=1:8.4p1-5+deb11u1
+RUN apt clean
 
 EXPOSE 80
 

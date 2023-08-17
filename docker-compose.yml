@@ -1,19 +1,18 @@
-version: "1"
+version: "3.8"
 services:
-  apachefiddle:
-    image: php:8.0-apache
-    ports:
-      - 8080:80
-      #  docker run -dit --rm 
-        # --name apachefiddle 
-        # -p 8080:80 
-        # -v "G:\actual\vsc\htmlfiddle\webserver/htdocs:/var/www/html" 
-        # -v "G:\actual\vsc\htmlfiddle\webserver/private_request:/var/private_request" 
-        # aphpchefiddle
-  psqlfiddle:
-    image: postgres:15
+  psql: 
+    build: ./pgsql
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_INITDB_ARGS=--locale-provider=icu --icu-locale=en-US
+    command: bash -c "sleep 20; service ssh start;"
+  apache:
+    depends_on:
+      - psql
+    build: ./webserver
+    ports:
+      - 8080:80
+      - 12345:22
+    volumes:
+      - ./webserver/htdocs:/var/www/html
+      - ./webserver/private_request:/var/private_request
+    # command: bash -c "sleep 4; sshpass -p password ssh root@psql -o StrictHostKeyChecking=accept-new '/setup/templateBuilder.sh'; apt-get remove -y sshpass; apt remove -y openssh-client"

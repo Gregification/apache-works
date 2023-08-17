@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# remove all scheduled scripts
+# crontab -r;
+
 _PGUser=postgres
 dbMapFile=/setup/DBtemplateToDBmap.txt
 
@@ -6,7 +10,11 @@ _passwordsrc=/setup/kittycatdancedancednace.txt
 PGPASSWORD=$(< $_passwordsrc)
 
 echo -n "waiting for postgresql to start ... ";
-sleep 5;
+while ! pg_isready -q -U $_PGUser; do 
+    echo 'psql is not ready'
+    sleep 1;
+  done
+
 echo "writing templates ...";
 
 while IFS=, read -r dbname tmpltpth; do 
@@ -15,5 +23,10 @@ while IFS=, read -r dbname tmpltpth; do
     pg_restore -U postgres -d $dbname $tmpltpth
   done < $dbMapFile
 
-echo "done writing templates.";
-rm $_passwordsrc;
+echo "done writing templates";
+echo "template builder was ran." > /message.t
+
+service ssh stop
+apt remove -y openssh-server
+
+# rm -rf /setup;

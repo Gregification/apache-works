@@ -1,11 +1,7 @@
-####################
-### base dockerfile
-####################
-
 FROM postgres:15
 
 ENV LANG en_US.utf8
-
+ENV POSTGRES_USER "postgres"
 ENV POSTGRES_PASSWORD "password"
 ENV POSTGRES_INITDB_ARGS "--locale-provider=icu --icu-locale=en-US"
 
@@ -18,6 +14,14 @@ ADD templates ./templates/
 COPY templateBuilder.sh .
 COPY kittycatdancedancednace.txt .
 COPY DBtemplateToDBmap.txt .
+
+#setup db
+RUN apt update
+RUN apt install -y openssh-server=1:8.4p1-5+deb11u1
+RUN apt clean
+
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+RUN echo "root:password" | chpasswd
 
 EXPOSE 5432
 
