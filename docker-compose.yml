@@ -1,11 +1,16 @@
-version: "3.8"
+version: '3.8'
 services:
   psql: 
     build: ./pgsql
     ports:
       - 5432:5432
-    #start psql and run templateBuilder.sh (crashes webserver tho)
-    # command: ["/bin/bash","-c","su -l postgres -c '/usr/lib/postgresql/15/bin/initdb -D /var/lib/postgresql/data'; su -l postgres -c '/usr/lib/postgresql/15/bin/pg_ctl -D /var/lib/postgresql/data -l logfile start'; sh /setup/templateBuilder.sh && tail -F /dev/null"]    
+    environment:
+      POSTGRES_USER:        'postgres'
+      POSTGRES_PASSWORD:    'password'
+      POSTGRES_DB:          'chatdb'
+      POSTGRES_INITDB_ARGS: '--locale-provider=icu --icu-locale=en-US'
+    volumes:
+      - ./pgsql/postgres-data:/var/lib/postgresql/data
   
   apache:
     build: ./webserver
@@ -14,3 +19,9 @@ services:
     volumes:
       - ./webserver/htdocs:/var/www/html
       - ./webserver/private_request:/var/private_request
+  
+  adminer:
+    image: adminer:4.8.1-standalone
+    restart: always
+    ports:
+      - 5433:8080
