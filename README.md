@@ -22,7 +22,7 @@ ocassionaly avaliable at [47.37.113.251:8080](http://47.37.113.251:8080) . other
  1. (do this step only when rebuilding the project) ssh into the psql DB container and run ```sh /setup/templateBuilder.sh``` (this cannot be easily automated with docker. i have tried \):  )
  1. visit <a href="http://localhost:8080">localhost:8080</a>
 
-### USING POWERSHELL (not recommended)
+### USING POWERSHELL (not recommended/deprecated)
 1. install Docker & clone this repo. turn on the docker daemon.
 1. navigate to the folder containing [run_phpApache.ps1](https://github.com/Gregification/htmlfiddle/blob/main/run_phpApache.ps1) , note: addiitonsl paramaters are best found in the .ps1 script itself.
 1. for the initial startup run ```.\run_phpApache.ps1 -rebuild -rebuildb``` , afterwards just ```.\run_phpApache.ps1``` will work.

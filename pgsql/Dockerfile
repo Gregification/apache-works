@@ -8,10 +8,10 @@ ENV LANG en_US.utf8
 COPY ./init-db /docker-entrypoint-initdb.d
 
 #set templates
-WORKDIR /setup
-ADD templates ./templates/
-COPY DBtemplateToDBmap.txt .
-COPY templateBuilder.sh .
+# WORKDIR /setup
+# ADD templates ./templates/
+# COPY DBtemplateToDBmap.txt .
+# COPY templateBuilder.sh .
 # FROM postgres
 # RUN rm /usr/local/bin/docker-entrypoint.sh
 # COPY kittycatdancedancednace.txt .

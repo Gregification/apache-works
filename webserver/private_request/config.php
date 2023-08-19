@@ -67,12 +67,12 @@
     //funcitons
     ////////////////////////////////////////////////////////////////////
 
-    //standard way to get a tables name
+    //not standard way to get a tables name
     $getTableName = function (int $id) use ($dbinfo) : string {
             return $dbinfo['chat id prefix'] . $id;
         };
     
-    //standard way to get a full pgsql path for a table. preffered over config.php/.getTableName()
+    //not standard way to get a full pgsql path for a table. preffered over config.php/.getTableName()
     $getTablePath = function ($id) use ($dbinfo, $conn, $getTableName) {
             if(!is_int($id)){
                 $q  = $conn->prepare("select id from {$dbinfo['chat table']} where title=?");

@@ -28,6 +28,7 @@ WORKDIR /var/
 COPY ./private_request ./private_request
 COPY ./htdocs ./www/html
 
+
 EXPOSE 80
 
 WORKDIR /var/www
