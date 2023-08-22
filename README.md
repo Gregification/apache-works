@@ -4,6 +4,7 @@ a apache webserver ran out of docker. is not criticaly dependent on external ser
 images used 
  - php:8.0-apache
  - postgres:15
+ - adminer:4.8.1-standalone
 
 frameworks
  - apache
