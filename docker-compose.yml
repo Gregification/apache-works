@@ -26,4 +26,4 @@ services:
       -  donotstart
     restart: always
     ports:
-      - 5433:8080
+      - 5433:8080 

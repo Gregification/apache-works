@@ -35,6 +35,9 @@ ocassionaly avaliable at [47.37.113.251:8080](http://47.37.113.251:8080) . other
 - if the db is not initialized...  run ```sh /setup/templateBuilder.sh``` from inside the psql container. that should reset it to defaults, otherwise continue reading; pgsql setup: the ```pgsql_dirty.tar``` file ([stored in a google drive since too large(.7gb) for casual upload](https://drive.google.com/drive/folders/1m2hxDKJHhBzIbTAJeKPh1kAFdB16_mnZ?usp=sharing)) is a .tar of a working postgresql db container saved as a iamge, then a container. use docker to create a image then container with it and make sure the name matches whats in the ```[string]$dbContainer = 'aphpsql'``` paramater in the powershell launch script aka. [run_phpApache.ps1 : around line#20](https://github.com/Gregification/htmlfiddle/blob/main/run_phpApache.ps1)
 - sql conneciton error. using hte powershell script or initial starts may leave connection errors. fix this by opening <code>webserver/private_request/psqlConnectionInfo.json</code> and changing the value of the <code>iPv4</code> entry to the container name or ip of the database container (can be found with <code>docker network inspect</code>).
 ---
-<!-- ## noteable
-- there is no api. its just a bunch of POST calls back and forth. planning to switch over to one eventually -->
 <p align="right"><img src="https://raw.githubusercontent.com/Gregification/htmlfiddle/main/htdocs/favicon.ico"></p>
+
+
+#### todo
+- remake everyhting using consistent oop
+- caching with <a href="https://httpd.apache.org/docs/2.4/caching.html#:~:text=The%20Apache%20HTTP%20server%20offers,the%20server%20in%20various%20ways.&text=mod_cache%20and%20its%20provider%20modules,intelligent%2C%20HTTP%2Daware%20caching." alt="mod_cach apache modules">mod_cach apache modules</a>
