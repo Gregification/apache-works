@@ -2,6 +2,8 @@ version: '3.8'
 services:
   psql: 
     build: ./pgsql
+    profiles:
+      -  donotstart
     ports:
       - 5432:5432
     environment:
@@ -11,6 +13,10 @@ services:
       POSTGRES_INITDB_ARGS: '--locale-provider=icu --icu-locale=en-US'
     volumes:
       - ./pgsql/postgres-data:/var/lib/postgresql/data
+    networks:
+      backend:
+        aliases:
+          - pgsql-db
   
   apache:
     build: ./webserver
@@ -19,7 +25,11 @@ services:
     volumes:
       - ./webserver/htdocs:/var/www/html
       - ./webserver/private_request:/var/private_request
-  
+    networks:
+      backend:
+        aliases:
+          - app
+
   adminer:
     image: adminer:4.8.1-standalone
     profiles:
@@ -27,3 +37,11 @@ services:
     restart: always
     ports:
       - 5433:8080 
+    networks:
+      backend:
+        aliases:
+          - adminer
+  
+networks:
+  backend:
+    name: backend-network

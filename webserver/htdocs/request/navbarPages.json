@@ -1,6 +1,0 @@
-[
-    { "href" : "/index.html"        ,   "as" : "Home"},
-    { "href" : "/chat/page3.php"    ,   "as" : "Chat"},
-    { "href" : "/page2.html"        ,   "as" : "Page2"},
-    { "href" : "/page2-1.html"      ,   "as" : "page2.1"}
-]
