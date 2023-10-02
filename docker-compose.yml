@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  laravel-app:
+    build:
+      context: '.'
+    container_name: laravel-app
+    ports:
+      - 8080:80
+    volumes:
+      - ./laravel:/var/www/html
+    networks:
+      backend:
+        aliases:
+          - app
+
+  psql-db: 
+    image: postgres:15
+    container_name: psql-db
+    environment:
+      - POSTGRES_USER='postgres'
+      - POSTGRES_PASSWORD='password'
+      - POSTGRES_DB='chat'
+      - POSTGRES_INITDB_ARGS='--locale-provider=icu --icu-locale=en-US'
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgsql/postgres-data:/var/lib/postgresql/data
+    networks:
+      backend:
+        aliases:
+          - psql-db
+          
+networks:
+  backend:
+    name: backend-network
